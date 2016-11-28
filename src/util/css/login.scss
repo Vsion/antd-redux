@@ -1,0 +1,27 @@
+
+#loginDiv .login-form {
+  max-width: 300px;
+}
+#loginDiv .login-form-forgot {
+  float: right;
+}
+#loginDiv .login-form-button {
+  width: 100%;
+}
+.codeDiv{
+  cursor: pointer;
+  display:inline-block;
+  width: 72px;
+  vertical-align: bottom;
+  height: 32px;
+}
+.codeImg{
+  height:100%;
+  width:100%;
+}
+.ant-form-item-with-help{
+  /*margin-bottom: 0 !important;*/
+}
+.ant-form-explain{
+  word-break: break-word;
+}

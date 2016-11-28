@@ -1,0 +1,43 @@
+/* 表格 */
+.resize-handler{
+  top: 0;
+  right: 0px;
+  width: 3px;
+  bottom: 0;
+  position: absolute;
+  cursor: w-resize;
+  float: right;
+}
+.resize-handler:hover{
+  background-color: rgba(0,0,0,.1);
+}
+.ant-table-thead th, .ant-table-thead tr{
+  position: relative;
+}
+.ant-table-tbody .ant-table-row td div{
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.ant-table-content th > span{
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow-x: hidden;
+  display: block;
+}
+.ant-table-content th.ant-table-selection-column > span{
+  text-overflow: inherit;
+  white-space: normal;
+  overflow-x: auto;
+  display: inline;
+}
+.ant-table-thead > tr > th.ant-table-selection-column, .ant-table-tbody > tr > td.ant-table-selection-column {
+  width: 20px !important;
+}
+td{
+  word-break:keep-all;
+}
+.ant-table-column-sorter{
+  text-align: left !important;
+}
+/* 表格结束 */

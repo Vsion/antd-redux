@@ -1,0 +1,162 @@
+[
+  {
+    "icon": "mail",
+    "key": "sub1",
+    "level": 0,
+    "pkey":"",
+    "url":"",
+    "title": "js组件"
+  },
+  {
+    "icon": "appstore",
+    "key": "sub2",
+    "level": 0,
+    "pkey":"",
+    "url":"",
+    "title": "antd组件"
+  },
+  {
+    "icon": "play-circle",
+    "key": "msgNotification",
+    "level": 2,
+    "pkey":"sub2",
+    "url":"./msgNotification",
+    "title": "提示框[全局,通知提醒]"
+  },
+  {
+    "icon": "play-circle",
+    "key": "loading",
+    "level": 1,
+    "pkey":"sub2",
+    "url":"./loading",
+    "title": "Loading测试页面"
+  },
+  {
+    "icon": "play-circle",
+    "key": "transfer",
+    "level": 1,
+    "pkey":"sub2",
+    "url":"./transfer",
+    "title": "穿梭框测试页面"
+  },
+  {
+    "icon": "play-circle",
+    "key": "sub3",
+    "level": 0,
+    "pkey":"",
+    "url":"",
+    "title": "其他测试页面"
+  },
+  {
+    "icon": "play-circle",
+    "key": "sub3_1",
+    "level": 1,
+    "pkey":"sub3",
+    "url":"",
+    "title": "测试二级菜单"
+  },
+  {
+    "icon": "play-circle",
+    "key": "pageSendMsg",
+    "level": 2,
+    "pkey":"sub3_1",
+    "url":"./pageSendMsg",
+    "title": "测试页面通信"
+  },
+  {
+    "icon": "play-circle",
+    "key": "form",
+    "level": 1,
+    "pkey":"sub1",
+    "url":"./form",
+    "title": "form"
+  },
+  {
+    "icon": "play-circle",
+    "key": "gridlist",
+    "level": 1,
+    "pkey":"sub1",
+    "url":"./gridlist",
+    "title": "gridlist"
+  },
+  {
+    "icon": "question-circle",
+    "key": "modalselect",
+    "level": 1,
+    "pkey":"sub1",
+    "url":"./modalselect",
+    "title": "modalselect"
+  },
+  {
+    "icon": "question-circle",
+    "key": "echart",
+    "level": 1,
+    "pkey":"sub1",
+    "url":"./echart",
+    "title": "echart"
+  },
+  {
+    "icon": "plus-square-o",
+    "key": "modalDialog",
+    "level": 1,
+    "pkey":"sub2",
+    "url":"./modalDialog",
+    "title": "Modal对话框"
+  },
+  {
+    "icon": "question-circle",
+    "key": "select",
+    "level": 1,
+    "pkey":"sub2",
+    "url":"./select",
+    "title": "select"
+  },
+  {
+    "icon": "question-circle",
+    "key": "dropdown",
+    "level": 1,
+    "pkey":"sub2",
+    "url":"./dropdown",
+    "title": "气泡确认.step.dropdown"
+  },
+  {
+    "icon": "question-circle",
+    "key": "antdGrid",
+    "level": 1,
+    "pkey":"sub2",
+    "url":"./antdGrid",
+    "title": "antd 表格改造"
+  },
+  {
+    "icon": "question-circle",
+    "key": "datepicker",
+    "level": 1,
+    "pkey":"sub2",
+    "url":"./datePicker",
+    "title": "datePicker"
+  },
+  {
+    "icon": "question-circle",
+    "key": "card",
+    "level": 1,
+    "pkey":"sub2",
+    "url":"./card",
+    "title": "Card"
+  },
+  {
+    "icon": "appstore",
+    "key": "sub4",
+    "level": 0,
+    "pkey":"",
+    "url":"",
+    "title": "示例页面"
+  },
+  {
+    "icon": "appstore",
+    "key": "anaDemo",
+    "level": 1,
+    "pkey":"sub4",
+    "url":"./anaDemo",
+    "title": "分析页"
+  }
+]

@@ -1,0 +1,229 @@
+*{
+  padding: 0;
+  margin: 0;
+}
+html, body {
+    width: 100%;
+    height: 100%;
+}
+#app,#app > div{
+  height:100%;
+  width:100%;
+}
+.bodyDiv{
+  position: relative;
+  height:100%;
+  width: 100%;
+}
+.cotainerDiv{
+  position: relative;
+  flex :1;
+  height:99.4%;
+  margin-left: 240px;
+  transition:all .3s;
+  background: white;
+}
+.cotainerDiv .ant-tabs-tabpane{//,.cotainerDiv .breadDiv{
+  background: #eff;
+  height: 100%;
+}
+.cotainerDiv .ant-tabs-tabpane iframe {
+  margin-top: 30px;
+  border: none;
+  width: 100%;
+  height: calc(100% - 70px);
+}
+.navDiv{
+  position: absolute;
+  display:inline-block;
+  width: 240px;
+  height:100%;
+  float:left;
+  transition:all .3s;
+  background: white;
+  border-right: 1px solid #d9d9d9;
+  box-sizing: border-box;
+}
+.navDiv ul.ant-menu.ant-menu-root{
+  overflow-y:auto;
+  overflow-x:hidden;
+}
+.headerDiv{
+}
+.headerDiv .right-area{
+  text-align: center;
+}
+.topToggle {
+    width: 240px;
+    float: left;
+    position: relative;
+    /*border-right: 1px solid #246bae;*/
+    height:40px;
+    background: #70CEF8;
+    overflow: hidden;
+}
+.nav-toggle, .nav-search{
+    height:40px;
+    line-height:40px;
+    background-color: #70CEF8;
+    color: white;
+    float: left;
+    width: 70px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 16px;
+    transition:all .3s;
+}
+.nav-search{
+    float: right;
+}
+.nav-toggle a.banner-icon {
+    width: 17px;
+    background-position: 0 -3px;
+}
+a.banner-icon {
+    display: inline-block;
+    height: 18px;
+    color: #fff;
+    width: 18px;
+    text-align: center;
+    cursor: pointer;
+    vertical-align: middle;
+    background: url(../img/top-banner-icon.png) no-repeat 0 0;
+}
+#desktopImg{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  background: url(../img/desktop.png) no-repeat 0 0;
+}
+#minNav > div{
+  font-weight: 600;
+  padding: 14px 20px 14px 25px;
+  font-size: 16px;
+}
+#minNav
+{
+  width: 70px;
+  height: calc(100% - 40px);
+  top: 40px;
+  position:absolute;
+}
+#minNav > div:hover{
+  background:#eee;
+  cursor: pointer;
+}
+.ant-tabs-bar{
+  margin-top: 8px;
+  margin-bottom: 0px !important;
+  box-sizing: border-box;
+  width:93%;
+}
+.ant-tabs-content{
+  height:100%;
+}
+.ant-tabs{
+  height:100%;
+}
+.ant-tabs-extra-content{
+  display: none;
+}
+.breadDiv{
+  height: 30px;
+  width: 100%;
+  position: absolute;
+  top: 40px;
+  line-height: 30px;
+  font-size: 14px;
+  box-sizing: border-box;
+  padding:0 20px;
+}
+.logoutDiv{
+  display: inline-block;
+  height: 40px;
+  width: 70px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 18px;
+  line-height: 40px;
+  text-align: center;
+  cursor: pointer;
+}
+.LoadDiv{
+  height: 100px;
+  background-color: #ffe;
+  width:100%;
+}
+/* 表格 */
+.resize-handler{
+  top: 0;
+  right: 0px;
+  width: 3px;
+  bottom: 0;
+  position: absolute;
+  cursor: w-resize;
+  float: right;
+}
+.resize-handler:hover{
+  background-color: rgba(0,0,0,.1);
+}
+.ant-table-thead th, .ant-table-thead tr{
+  position: relative;
+}
+.ant-table-tbody .ant-table-row td div{
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.ant-table-content th > span{
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow-x: hidden;
+  display: block;
+}
+.ant-table-content th.ant-table-selection-column > span{
+  text-overflow: inherit;
+  white-space: normal;
+  overflow-x: auto;
+  display: inline;
+}
+.ant-table-thead > tr > th.ant-table-selection-column, .ant-table-tbody > tr > td.ant-table-selection-column {
+  width: 20px !important;
+}
+td{
+  word-break:keep-all;
+}
+.ant-table-column-sorter{
+  text-align: left !important;
+}
+/* 表格结束 */
+.ant-select-dropdown-menu-item-selected, .ant-select-dropdown-menu-item-selected:hover{
+  background: #eaf8fe;
+}
+.ant-form-item-with-help{
+  margin-bottom: 0 !important;
+}
+#loginDiv .login-form {
+  max-width: 300px;
+}
+#loginDiv .login-form-forgot {
+  float: right;
+}
+#loginDiv .login-form-button {
+  width: 100%;
+}
+.codeDiv{
+  cursor: pointer;
+  display:inline-block;
+  width: 72px;
+  vertical-align: bottom;
+  height: 32px;
+}
+.codeImg{
+  height:100%;
+  width:100%;
+}

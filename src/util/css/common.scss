@@ -1,0 +1,46 @@
+//sass style
+//-----------------------------------
+// _util.scss
+
+@import 'util';
+
+.ant-select-dropdown-menu-item-selected{
+  background-color: #eaf8fe !important;
+}
+li.ant-calendar-time-picker-select-option-selected {
+    background: #eaf8fe !important;
+}
+
+#app{
+  overflow-y: auto;
+}
+/*panel start*/
+.container{
+  padding:10px;
+}
+.container .ant-collapse{
+  margin-bottom: 10px;
+}
+.container .ant-collapse:nth-last-child(1){
+  margin-bottom: 0px;
+}
+.container .ant-collapse-content{
+  padding: 0 10px;
+}
+.container .ant-collapse-content-box{
+  padding: 10px 0;
+}
+.container .ant-collapse .ant-collapse-header{
+  background: #108EE9;
+  color: white;
+}
+.container .ant-collapse .ant-collapse-header .arrow{
+  color: white;
+}
+.container .ant-collapse .ant-form
+{
+  transition: all 1s;
+}
+
+
+/*panel end*/
