@@ -11,7 +11,7 @@ export default (state = {
     //{ title: 'tab2下钻', url: './tab2', key: 'tab21232', menuKey: '' },
   ],
   activeKey: "anaDemo",
-  breadCrumb: {key: "", items:[]},
+  breadCrumb: {key: "", items:[{title: "首页", url: "#"}]},
 }, action) => {
   switch (action.type) {
     case 'TOGGLE_MENU':

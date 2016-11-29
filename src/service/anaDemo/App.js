@@ -7,7 +7,7 @@ const FormItem = Form.Item;
 import Grid from 'svc2Src/components/HHGridlist/index';
 import $ from 'jquery';
 import HHPanel from 'svc2Src/components/HHPanel/HHPanel';
-import HHSearchForm from 'svc2Src/components/HHSearchForm/HHSearchForm';
+import HHQueryForm from 'svc2Src/components/HHQueryForm/HHQueryForm';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -22,6 +22,14 @@ let gridData = [
   {col0:"1",col1:"2",col2:"3"},
   {col0:"1",col1:"2",col2:"3"},
   {col0:"1",col1:"2",col2:"3"}
+]
+
+const options = [
+  {value: "1", text: "111"},
+  {value: "2", text: "222"},
+  {value: "3", text: "333"},
+  {value: "4", text: "444"},
+  {value: "5", text: "555"},
 ]
 
 let gridOpt = {
@@ -47,13 +55,17 @@ let gridOpt = {
 };
 
 const items = [
-  {name: "input1", label: "label1", placeholder: "placeholder1"},
-  {name: "input2", label: "label2", placeholder: "placeholder2"},
-  {name: "input3", label: "label3", placeholder: "placeholder3"},
-  {name: "input4", label: "label4", placeholder: "placeholder4"},
-  {name: "input4", label: "label4", placeholder: "placeholder4"},
-  {name: "input4", label: "label4", placeholder: "placeholder4"},
-  {name: "input4", label: "label4", placeholder: "placeholder4"},
+
+  {name: "date", label: "date", type: "RangePicker"},
+  {name: "input7", label: "label7", placeholder: "placeholder7", type: "input"},
+  {name: "input7", label: "label7", placeholder: "placeholder7", type: "select",
+   options: options
+  },
+  {name: "input1", label: "label1", placeholder: "placeholder1", type: "input"},
+  {name: "input2", label: "label2", placeholder: "placeholder2", type: "input"},
+  {name: "input3", label: "label3", placeholder: "placeholder3", type: "input"},
+  {name: "input4", label: "label4", placeholder: "placeholder4", type: "input"},
+  {name: "input5", label: "label5", placeholder: "placeholder5", type: "input"},
 ];
 
 const echartsOption = {
@@ -140,9 +152,17 @@ const App = React.createClass({
                       children: <div>这是一个测试的child</div>}],
     }
   },
-  Search(e) {
+  Search(e) {debugger
     e.preventDefault();
-    this.props.form.validateFields((err, values) => {
+    arguments[3].validateFields((err, fvalues) => {
+      var values = fvalues;
+      // values = {
+      //   ...fvalues,
+      //   'range-time-picker': [
+      //     fvalues["date"][0].format('YYYY-MM-DD HH:mm:ss'),
+      //     fvalues["date"][1].format('YYYY-MM-DD HH:mm:ss'),
+      //   ],
+      // };
       console.log('Received values of form: ', values);
     });
   },

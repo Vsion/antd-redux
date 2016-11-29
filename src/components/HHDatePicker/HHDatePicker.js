@@ -59,14 +59,59 @@ let defaultValue = moment().locale('en').utcOffset(0);//时间
 //     }
 //   }
 // };
+function range(start, end) {
+  const result = [];
+  for (let i = start; i < end; i++) {
+    result.push(i);
+  }
+  return result;
+}
 
+function disabledDate(current) {
+  // can not select days before today and today
+  return null;//current && current.valueOf() < Date.now();
+}
+
+function disabledTime(_, type) {
+  if (type === 'start') {
+    return {
+      disabledHours() {
+        return range(0, 0);
+      },
+      disabledMinutes() {
+        return range(0, 0);
+      },
+      disabledSeconds() {
+        return range(0, 0);
+      },
+    };
+  }
+  return {
+    disabledHours() {
+      return range(0, 0);
+    },
+    disabledMinutes() {
+      return range(0, 0);
+    },
+    disabledSeconds() {
+      return range(0, 0);
+    },
+  };
+}
 const HHMonthPicker = React.createClass({
    getInitialState(){
      return { };
    },
    render() {
      return (
-       <MonthPicker defaultValue={defaultValue} locale={locale} placeholder={this.props.placeholder} format={this.props.format} disabledDate={this.props.disabledDate} onChange={this.props.onChange} />
+       <MonthPicker
+         defaultValue={defaultValue}
+         locale={locale}
+         placeholder={this.props.placeholder || "请选择月份"}
+         format={this.props.format}
+         disabledDate={this.props.disabledDate || disabledDate}
+         onChange={this.props.onChange || null}
+       />
      );
    },
  });
@@ -77,7 +122,16 @@ const HHDatePicker = React.createClass({
   },
   render() {
     return (
-      <DatePicker defaultValue={defaultValue} locale={locale}  placeholder={this.props.placeholder} format={this.props.format} showTime={this.props.showTime} disabledDate={this.props.disabledDate} disabledTime={this.props.disabledTime} onChange={this.props.onChange} />
+      <DatePicker
+        defaultValue={defaultValue}
+        locale={locale}
+        placeholder={this.props.placeholder}
+        format={this.props.format}
+        showTime={this.props.showTime}
+        disabledDate={this.props.disabledDate || disabledDate}
+        disabledTime={this.props.disabledTime || disabledTime}
+        onChange={this.props.onChange || null}
+      />
     );
   },
 });
@@ -87,8 +141,20 @@ const HHRangePicker = React.createClass({
      return { };
    },
    render() {
+     var placeholder = [this.props.startPlaceholder || "开始时间", this.props.endPlaceholder || "结束时间"];
      return(
-       <RangePicker startPlaceholder={this.props.startPlaceholder} endPlaceholder={this.props.endPlaceholder} defaultValue={[defaultValue,defaultValue]} locale={locale} placeholder={this.props.placeholder} format={this.props.format} showTime={this.props.showTime} disabledDate={this.props.disabledDate} disabledTime={this.props.disabledTime} onChange={this.props.onChange} />
+       <RangePicker
+         placeholder={placeholder}
+         startPlaceholder={this.props.startPlaceholder || "开始时间"}
+         endPlaceholder={this.props.endPlaceholder || "结束时间"}
+         defaultValue={[defaultValue,defaultValue]}
+         locale={locale}
+         format={this.props.format}
+         showTime={this.props.showTime}
+         disabledDate={this.props.disabledDate || disabledDate}
+         disabledTime={this.props.disabledTime || disabledTime}
+         onChange={this.props.onChange || null}
+       />
      );
    },
  });
