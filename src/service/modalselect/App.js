@@ -15,20 +15,20 @@ import { Switch } from 'antd';
 
 let carrier;
 let data =[
-{"id":"a0","name":"AA","label":"视频","children":[
-     {"id":"a1","name":"AA1","label":"优酷","children":[
-       {"id":"a11","name":"AA11","label":"电影","children":[]},
-       {"id":"a12","name":"AA12","label":"电视剧","children":[]}
-       ]},
-     {"id":"a2","name":"AA2","label":"腾讯视频","children":[]},
-     {"id":"a3","name":"AA3","label":"搜狐视频","children":[]}
-]},
-{"id":"b0","name":"BB","label":"游戏","children":[
-     {"id":"b1","name":"BB1","label":"单机游戏","children":[]},
-     {"id":"b2","name":"BB2","label":"网络游戏","children":[]}
-   ]},
-{"id":"c0","name":"CC","label":"小说","children":[]},
-{"id":"d0","name":"DD","label":"新闻","children":[]}
+  {"id":"a0","name":"AA","label":"视频","children":[
+       {"id":"a1","name":"AA1","label":"优酷","children":[
+         {"id":"a11","name":"AA11","label":"电影","children":[]},
+         {"id":"a12","name":"AA12","label":"电视剧","children":[]}
+         ]},
+       {"id":"a2","name":"AA2","label":"腾讯视频","children":[]},
+       {"id":"a3","name":"AA3","label":"搜狐视频","children":[]}
+  ]},
+  {"id":"b0","name":"BB","label":"游戏","children":[
+       {"id":"b1","name":"BB1","label":"单机游戏","children":[]},
+       {"id":"b2","name":"BB2","label":"网络游戏","children":[]}
+     ]},
+  {"id":"c0","name":"CC","label":"小说","children":[]},
+  {"id":"d0","name":"DD","label":"新闻","children":[]}
 ]
 let msOpt = {
   data:data,

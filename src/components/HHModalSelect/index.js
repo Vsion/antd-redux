@@ -11,7 +11,8 @@ export default class ModalSelect extends React.Component{
   componentDidUpdate(props) {
     let pOpt = props.option;
     let inst =this.inst;
-    inst.updateData(props.option.data)
+    console.log(inst.getVal());
+    inst.updateData(props.option.data);
   }
   componentDidMount() {
     this.inst = $(this.refs.dom.refs.input).hhModalSelect(this.props.option);

@@ -53,19 +53,54 @@ let gridOpt = {
       pageSize:50
   }
 };
+const defaultValue = {
+  "ICP.web" : "a0",
+  "ICP.web1" : "b2"
+};
+
+let data =[
+  {"id":"a0","name":"AA","label":"视频","children":[
+       {"id":"a1","name":"AA1","label":"优酷","children":[
+         {"id":"a11","name":"AA11","label":"电影","children":[]},
+         {"id":"a12","name":"AA12","label":"电视剧","children":[]}
+         ]},
+       {"id":"a2","name":"AA2","label":"腾讯视频","children":[]},
+       {"id":"a3","name":"AA3","label":"搜狐视频","children":[]}
+  ]},
+  {"id":"b0","name":"BB","label":"游戏","children":[
+       {"id":"b1","name":"BB1","label":"单机游戏","children":[]},
+       {"id":"b2","name":"BB2","label":"网络游戏","children":[]}
+     ]},
+  {"id":"c0","name":"CC","label":"小说","children":[]},
+  {"id":"d0","name":"DD","label":"新闻","children":[]}
+]
+let opt = {
+  data:data,
+  keys:{
+    id:"id",
+    name:"name",
+    label:"label",
+    children:"children"
+  },
+  outputDom:[{level:"0",id:"aa0",name:"ICP.web"},
+             {level:"1",id:"aa1",name:"ICP.web1"}]
+}
 
 const items = [
+  {name: "range", label: "range", type: "RangePicker"},
+  {name: "date", label: "date", type: "DatePicker"},
+  {name: "month", label: "month", type: "MonthPicker"},
+  {name: "ms", label: "ModalSelect", type: "ModalSelect", opt: opt,defaultValue: defaultValue},
 
-  {name: "date", label: "date", type: "RangePicker"},
-  {name: "input7", label: "label7", placeholder: "placeholder7", type: "input"},
-  {name: "input7", label: "label7", placeholder: "placeholder7", type: "select",
+  {name: "input", label: "label7", placeholder: "placeholder", type: "Input"},
+  {name: "select", label: "select", placeholder: "placeholder8", type: "Select",
    options: options
   },
-  {name: "input1", label: "label1", placeholder: "placeholder1", type: "input"},
-  {name: "input2", label: "label2", placeholder: "placeholder2", type: "input"},
-  {name: "input3", label: "label3", placeholder: "placeholder3", type: "input"},
-  {name: "input4", label: "label4", placeholder: "placeholder4", type: "input"},
-  {name: "input5", label: "label5", placeholder: "placeholder5", type: "input"},
+  {name: "input1", label: "label1", placeholder: "placeholder1", type: "Input"},
+  {name: "input2", label: "label2", placeholder: "placeholder2", type: "Input"},
+  {name: "input3", label: "label3", placeholder: "placeholder3", type: "Input"},
+  {name: "input4", label: "label4", placeholder: "placeholder4", type: "Input"},
+  {name: "input5", label: "label5", placeholder: "placeholder5", type: "Input"},
 ];
 
 const echartsOption = {
@@ -125,63 +160,59 @@ const echartsOption = {
         }
     ]
 };
+function Search(e){debugger
+  e.preventDefault();
+  //arguments[3] = form
+  arguments[3].validateFields((err, fvalues) => {
+    var values = fvalues;
+    // values = {
+    //   ...fvalues,
+    //   'range-time-picker': [
+    //     fvalues["date"][0].format('YYYY-MM-DD HH:mm:ss'),
+    //     fvalues["date"][1].format('YYYY-MM-DD HH:mm:ss'),
+    //   ],
+    // };
+    // fetch('data/nodes',{
+    //   method: 'POST',
+    //   body: JSON.stringify(values),
+    //   header: {'content-type':'application/json; charset=utf-8'}
+    // });
+    console.log('Received values of form: ', values);
+  });
+};
+function Reset(e,form){
+  form.resetFields();
+};
 const App = React.createClass({
   getInitialState(){
     return {
-      CheckList: [{header: "查询框",
-                  key: "1",
-                  children:
-                  <HHSearchForm
+      CheckList :[{header: "查询框", key: "1", children:
+                  <HHQueryForm
                     Items={items}
-                    Search={this.Search}
-                    Reset={this.Reset}
+                    Search={Search}
+                    Reset={Reset}
                     btnSubmit="查询"
                     btnReset="清空"
-                   />}],
-      GridList: [{header: "echarts",
-                  key: "1",
-                  children:   <ReactEcharts
-                                option={echartsOption}
-                                style={{height: '350px', width: '100%'}}
-                                className='react_for_echarts' />}],
-      PanelList2: [{header: "表格",
-                    key: "1",
-                    children: <Grid ref="grid0" option={gridOpt} />},
-                     {header: "测试Panel2",
-                      key: "2",
-                      children: <div>这是一个测试的child</div>}],
+                    showCount={4} />}],
+      ChartList :[{header: "echarts", key: "1", children:
+                  <ReactEcharts
+                    option={echartsOption}
+                    style={{height: '350px', width: '100%'}}
+                    className='react_for_echarts' />}],
+      PanelList2 :[{header: "表格", key: "1", children:
+                   <Grid ref="grid1" option={gridOpt} />},
+                   {header: "测试Panel2", key: "2", children:
+                   <div>这是一个测试的child</div> }],
     }
   },
-  Search(e) {debugger
-    e.preventDefault();
-    arguments[3].validateFields((err, fvalues) => {
-      var values = fvalues;
-      // values = {
-      //   ...fvalues,
-      //   'range-time-picker': [
-      //     fvalues["date"][0].format('YYYY-MM-DD HH:mm:ss'),
-      //     fvalues["date"][1].format('YYYY-MM-DD HH:mm:ss'),
-      //   ],
-      // };
-      console.log('Received values of form: ', values);
-    });
-  },
-
-  Reset() {
-    this.props.form.resetFields();
-  },
-
   render() {
     return (
       <div className="container">
         <HHPanel PanelList={this.state.CheckList} defaultActiveKey="1" onChange={this.onChange} />
-        <HHPanel PanelList={this.state.GridList} defaultActiveKey="1" onChange={this.onChange} />
+        <HHPanel PanelList={this.state.ChartList} defaultActiveKey="1" onChange={this.onChange} />
         <HHPanel PanelList={this.state.PanelList2} defaultActiveKey="1" onChange={this.onChange} />
       </div>
     );
-  },
-  componentDidMount(){
-
   }
 });
 

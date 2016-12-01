@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as Actions from './actions'
 import getCarrier from 'svc2Src/util/js/Carrier';
-import HHGrid from 'svc2Src/components/HHGrid/HHGrid';
+import HHGrid from 'svc2Src/components/HHGrid_test/HHGrid';
 let carrier;
 
 //数据

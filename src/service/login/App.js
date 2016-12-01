@@ -73,7 +73,7 @@ const App = Form.create()(React.createClass({
           onSubmit={this.handleSubmit}
           style={{ position: "absolute" ,textAlign:"center",height: 220, top:0, bottom: 0, left: 0, right: 0, margin:"auto" }}
           >
-          <FormItem style={{height: 50}} help="123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123">
+          <FormItem help="123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123">
             {getFieldDecorator('userName', {
               rules: [{ required: true, message: '请输入用户名!' }],
               valuePropName: 'value',
@@ -82,14 +82,14 @@ const App = Form.create()(React.createClass({
               <Input onChange={this.onNameChange} autoComplete="off" style={{width: 200}} addonBefore={<Icon type="user" />} placeholder="Username" />
             )}
           </FormItem><br/>
-          <FormItem style={{height: 50}}>
+          <FormItem>
             {getFieldDecorator('password', {
               rules: [{ required: true, message: '请输入密码!' }],
             })(
               <Input autoComplete="off" style={{width: 200}} addonBefore={<Icon type="lock" />} type="password" placeholder="Password" />
             )}
           </FormItem><br/>
-          <FormItem style={{textAlign: "left", height: 50}}>
+          <FormItem style={{textAlign: "left"}}>
             {getFieldDecorator('verification', {
               rules: [{ required: true, message: '请输入的验证码!', test: true },
 

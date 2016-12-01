@@ -20,8 +20,16 @@
   width:100%;
 }
 .ant-form-item-with-help{
-  /*margin-bottom: 0 !important;*/
+  /*margin-bottom: 0 !important;
+  margin-bottom: 10px;*/
+}
+.ant-row.ant-form-item{
+  margin-bottom: 10px;
 }
 .ant-form-explain{
   word-break: break-word;
+  position: inherit !important;
+}
+.ant-form-item{
+  width: 230px;
 }
