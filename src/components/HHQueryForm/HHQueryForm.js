@@ -11,17 +11,49 @@ const formItemLayout = {
   labelCol: { span: 5 },
   wrapperCol: { span: 19 },
 };
-
-const HHQueryForm = Form.create()(React.createClass({
+let onChange = (msObj)=>{
+  //debugger
+}
+let formRefs;
+const HHQueryForm = React.createClass({
+  getRefs(){
+    return formRefs;
+  },
+  render(){
+    return (
+      <HHForm
+        ref="Form"
+        Items={this.props.Items}
+        Search={this.props.Search}
+        Reset={this.props.Reset}
+        btnSubmit={this.props.btnSubmit}
+        btnReset={this.props.btnReset}
+        showCount={this.props.showCount}
+       />
+    )
+  }
+});
+const HHForm = Form.create()(React.createClass({
   getInitialState(){
     return {
       expand: false,
       isReflesh: false,
     };
   },
+  componentDidUpdate(){
+    //debugger
+  },
   toggle() {
     const { expand } = this.state;
     this.setState({ expand: !expand });
+  },
+  componentDidMount() {
+    // debugger
+    //console.log(this.refs.ms);
+    this.getRefs();
+  },
+  getRefs(){
+    formRefs=this.refs;
   },
   getItem(Items,i,getFieldDecorator){
     var name = Items[i].name;
@@ -30,7 +62,7 @@ const HHQueryForm = Form.create()(React.createClass({
         return(
           <FormItem {...formItemLayout} label={Items[i].label} title={Items[i].label}>
             {getFieldDecorator(name)(
-              <Input placeholder={Items[i].placeholder || "请选择"} />
+              <Input onChange={onChange} placeholder={Items[i].placeholder || "请选择"} />
             )}
           </FormItem>)
         break;
@@ -81,7 +113,7 @@ const HHQueryForm = Form.create()(React.createClass({
              )}
            </FormItem>);
         break;
-      case "ModalSelect":debugger
+      case "ModalSelect":
         return(
           <FormItem {...formItemLayout} label={Items[i].label}>
             {/*}{getFieldDecorator(name, {
@@ -93,7 +125,9 @@ const HHQueryForm = Form.create()(React.createClass({
              })(
 
              )}*/}
-             <ModalSelect size="large" placeholder={Items[i].placeholder} option={Items[i].opt} defaultValue={Items[i].defaultValue}/>
+             {getFieldDecorator(name)(
+                <ModalSelect size="large" ref={Items[i].ref} onChange={onChange} placeholder={Items[i].placeholder} option={Items[i].opt} defaultMsValue={Items[i].defaultValue}/>
+             )}
            </FormItem>);
         break;
 
@@ -101,6 +135,20 @@ const HHQueryForm = Form.create()(React.createClass({
         return null;
         break;
     }
+  },
+  onSubmit(e){
+    e.preventDefault();
+    this.props.form.validateFields((err, fvalues) => {
+      var values = fvalues;debugger
+      this.props.Items.map(function(o,i,objs){
+        if(o.type == "ModalSelect"){
+          values = Object.assign(values, fvalues[o.name]);
+          //values.ms = null;
+          delete values[o.name];
+        }
+      });
+      this.props.Search(values);
+    });
   },
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -123,9 +171,7 @@ const HHQueryForm = Form.create()(React.createClass({
       <Form
         horizontal
         className="ant-advanced-search-form"
-        onSubmit={(...arg)=> {
-          this.props.Search(...arg,this.props.form);
-        }}
+        onSubmit={this.onSubmit}
       >
         <Row gutter={40} style={{height: _height}} >
           {children}{/*{children.slice(0, shownCount)}*/}

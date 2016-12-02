@@ -1164,6 +1164,9 @@ import jQuery from 'jquery'
 					m.setChildrenEnabled(selectedItems[i]);//让选中的选项的子选项变成可选状态
 				};
 			},
+			setValByProps: function(props){
+				//debugger
+			},
 			getVal : function () {
 				var $output = r.$ele.$output;
 				var out = {};

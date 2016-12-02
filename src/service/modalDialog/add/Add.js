@@ -39,7 +39,6 @@ const Add = React.createClass({
      },3000);
    },
    handleCancel(e) {
-     debugger
      console.log("cancel");
      this.props.actions.toggleModal(false);
    },
@@ -109,7 +108,7 @@ const Add = React.createClass({
      );
    },
    componentWillUnmount(){
-     debugger
+     //debugger
    },
 
 });

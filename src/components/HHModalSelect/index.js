@@ -7,15 +7,24 @@ import {Input,Checkbox} from 'antd';
 export default class ModalSelect extends React.Component{
   constructor (props){
     super(props);
+    this.state = {
+      msObj: props.defaultMsValue
+    }
   }
   componentDidUpdate(props) {
     let pOpt = props.option;
     let inst =this.inst;
-    console.log(inst.getVal());
-    inst.updateData(props.option.data);
+    //inst.setValByProps(inst.getVal());
+    inst.setVal();
+    //inst.updateData(props.option.data);
   }
   componentDidMount() {
-    this.inst = $(this.refs.dom.refs.input).hhModalSelect(this.props.option);
+    let onModalSubmit = this.props.option.onModalSubmit;
+    let option = Object.assign(this.props.option,{onModalSubmit:()=>{
+      this.onSubmit();
+      !!onModalSubmit && onModalSubmit();
+    }})
+    this.inst = $(this.refs.dom.refs.input).hhModalSelect(option);
     this.inst.setDefalutVal();
     let $clearBtn = this.inst.getDoms()[1].$clearBtn;
     let $submit = this.inst.getDoms()[1].$submit;
@@ -23,6 +32,10 @@ export default class ModalSelect extends React.Component{
     $clearBtn.addClass('ant-btn');
     $submit.addClass('ant-btn ant-btn-primary');
     $cancel.addClass('ant-btn');
+  }
+  onSubmit(){
+    !!this.props.onChange && this.props.onChange(this.inst.getVal())
+    // this.setState({msObj: this.inst.getVal()});
   }
   componentWillUnmount() {
     this.dispose();
@@ -42,7 +55,7 @@ export default class ModalSelect extends React.Component{
   render(){
     let props = this.props;
     let outInps = props.option.outputDom || [];
-    let defaultValue = props.defaultValue || {};
+    let defaultValue = props.defaultMsValue || {};
     let renderInps = outInps.map((opt) => {
       let val = defaultValue[opt.name] || ""
       return <input type="hidden" id={opt.id} name={opt.name} key={opt.id} defaultValue={val} />;
@@ -58,13 +71,14 @@ export default class ModalSelect extends React.Component{
       onPressEnter : props.onPressEnter,
       autosize : props.autosize,
       defaultValue : "",
-      ref : "dom"
+      ref : "dom",
+      placeholder: props.placeholder
     }
     // let inpProps = Object.assign({} ,props,{ ref : "dom" ,"defaultValue":""});
-    let sourceInp = React.createElement(Input, inpProps)
+    // let sourceInp = React.createElement(Input, inpProps)
     return (
-      <div>
-        {sourceInp}
+      <div value={this.state.msObj} onChange={this.props.onChange}>
+        <Input {...inpProps} />
         {renderInps}
       </div>
     )

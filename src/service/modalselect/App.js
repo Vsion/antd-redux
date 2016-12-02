@@ -10,6 +10,7 @@ import getCarrier from 'svc2Src/util/js/Carrier';
 import ModalSelect from 'svc2Src/components/hhModalSelect/index';
 import $ from 'jquery';
 
+import { Input } from 'antd';
 import { Switch } from 'antd';
 
 
@@ -65,13 +66,18 @@ export default connect(
       defaultValue : {
         "ICP.web" : "a0",
         "ICP.web1" : "b2"
-      }
+      },
+      value: "123",
     }
+  }
+  onChange(){
+    this.setState({"value": "222"});
   }
   render() {
     return (
       <div>
         <ModalSelect size="large" placeholder="large size" option={this.state.msOpt} defaultValue={this.state.defaultValue}/>
+        <Input value={this.state.value} onChange={this.onChange.bind(this)} />
       </div>
     );
   }
