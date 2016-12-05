@@ -90,7 +90,7 @@ const items = [
   {name: "range", label: "range", type: "RangePicker"},
   {name: "date", label: "date", type: "DatePicker"},
   {name: "month", label: "month", type: "MonthPicker"},
-  {name: "ms", ref: "ms", placeholder: "请选择", label: "ModalSelect", type: "ModalSelect", opt: opt,defaultValue: defaultValue},
+  {name: "ms",ref: "ms", placeholder: "请选择", label: "ModalSelect", type: "ModalSelect", opt: opt,defaultValue: defaultValue},
 
   {name: "input", label: "label7", placeholder: "placeholder", type: "Input"},
   {name: "select", label: "select", placeholder: "placeholder8", type: "Select",
@@ -161,32 +161,8 @@ const echartsOption = {
     ]
 };
 function Search(values){
-  // //arguments[3] = form
-  // var a = arguments[3].validateFields((err, fvalues) => {
-  //   var values = fvalues;
-  //   debugger
-  //   values = Object.assign(values, fvalues.ms)
-  //   //values.ms = null;
-  //   delete values.ms;
-  //   // values = {
-  //   //   ...fvalues,
-  //   //   'range-time-picker': [
-  //   //     fvalues["date"][0].format('YYYY-MM-DD HH:mm:ss'),
-  //   //     fvalues["date"][1].format('YYYY-MM-DD HH:mm:ss'),
-  //   //   ],
-  //   // };
-  //   fetch('data/nodes',{
-  //     method: 'POST',
-  //     body: JSON.stringify(values),
-  //     header: {'content-type':'application/json; charset=utf-8'}
-  //   });
-  //   console.log('Received values of form: ', values);
-  // });
-  debugger
   console.log('Received values of form: ', values);
-};
-function Reset(e,form){
-  form.resetFields();
+  console.log('Received values of form(str): ', JSON.stringify(values));
 };
 const App = React.createClass({
   getInitialState(){
@@ -196,7 +172,6 @@ const App = React.createClass({
                     ref="qf"
                     Items={items}
                     Search={Search}
-                    Reset={Reset}
                     btnSubmit="查询"
                     btnReset="清空"
                     showCount={4} />}],

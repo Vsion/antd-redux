@@ -8,8 +8,8 @@ import { HHMonthPicker, HHDatePicker, HHRangePicker } from '../HHDatePicker/HHDa
 require('./HHQueryForm.scss');
 
 const formItemLayout = {
-  labelCol: { span: 5 },
-  wrapperCol: { span: 19 },
+  labelCol: { span: 8 },
+  wrapperCol: { span: 16 },
 };
 let onChange = (msObj)=>{
   //debugger
@@ -25,7 +25,7 @@ const HHQueryForm = React.createClass({
         ref="Form"
         Items={this.props.Items}
         Search={this.props.Search}
-        Reset={this.props.Reset}
+        Reset={this.reset}
         btnSubmit={this.props.btnSubmit}
         btnReset={this.props.btnReset}
         showCount={this.props.showCount}
@@ -38,6 +38,7 @@ const HHForm = Form.create()(React.createClass({
     return {
       expand: false,
       isReflesh: false,
+      isReset: false,
     };
   },
   componentDidUpdate(){
@@ -48,7 +49,6 @@ const HHForm = Form.create()(React.createClass({
     this.setState({ expand: !expand });
   },
   componentDidMount() {
-    // debugger
     //console.log(this.refs.ms);
     this.getRefs();
   },
@@ -126,7 +126,7 @@ const HHForm = Form.create()(React.createClass({
 
              )}*/}
              {getFieldDecorator(name)(
-                <ModalSelect size="large" ref={Items[i].ref} onChange={onChange} placeholder={Items[i].placeholder} option={Items[i].opt} defaultMsValue={Items[i].defaultValue}/>
+                <ModalSelect isReset={this.state.isReset} size="large" onChange={onChange} placeholder={Items[i].placeholder} option={Items[i].opt} defaultMsValue={Items[i].defaultValue}/>
              )}
            </FormItem>);
         break;
@@ -139,7 +139,7 @@ const HHForm = Form.create()(React.createClass({
   onSubmit(e){
     e.preventDefault();
     this.props.form.validateFields((err, fvalues) => {
-      var values = fvalues;debugger
+      var values = fvalues;
       this.props.Items.map(function(o,i,objs){
         if(o.type == "ModalSelect"){
           values = Object.assign(values, fvalues[o.name]);
@@ -149,6 +149,13 @@ const HHForm = Form.create()(React.createClass({
       });
       this.props.Search(values);
     });
+  },
+  reset(e,form) {debugger
+    form.resetFields();
+    this.setState({isReset: true}, function(){
+      this.setState({isReset: false});
+    });
+    //组件实例.reset()
   },
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -180,7 +187,7 @@ const HHForm = Form.create()(React.createClass({
           <Col span={24} style={{ textAlign: 'right' }}>
             <Button type="primary" htmlType="submit">{this.props.btnSubmit}</Button>
             <Button style={{ marginLeft: 8 }} onClick={(...arg)=> {
-              this.props.Reset(...arg,this.props.form);
+              this.reset(...arg,this.props.form);
               this.setState({isReflesh: true},function(){
                 this.setState({isReflesh: false});
               })

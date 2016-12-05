@@ -101,7 +101,12 @@ import jQuery from 'jquery'
 				_self.data = d.data;
 				_self.value = [];
 				_self.items = {};
-				_self.selectedItems = [];
+				var len = _self.selectedItems.length;
+				for (var i = 0; i < len; i++) {
+					_self.selectedItems[0].select(false);
+					_self.itemOnCheck(_self.selectedItems[0],false)
+				}
+				//_self.modalSubmit();
 				_self.tmpSelectedItems = [];
 				_self.queryItems = {};
 				_self.crumbs = [];//面包屑
@@ -663,9 +668,11 @@ import jQuery from 'jquery'
 			},
 			reset : function () {
 				var _self = this;
-				_self.$ele.$crumbsArea.empty();//清除标签区域
-				_self.$ele.$selectedArea.empty();//清除选项区域
-				m.$source.val("");
+				//_self.$ele.$crumbsArea.empty();//清除标签区域
+				//_self.$ele.$selectedArea.empty();//清除选项区域
+
+				m.$source.val("").prop("title", "");
+
 			},
 			resetOutDom : function () {
 				var $output = r.$ele.$output;
@@ -1281,14 +1288,17 @@ import jQuery from 'jquery'
 			},
 			updateData : function (data,unResetVal) {
 				d.data = data;
-				m.reset();
-				r.reset();
+				this.reset();
 				m.initItems();
 				m.initItemPath();
 				r.initItems();
 				if (!unResetVal) {
 					r.resetOutDom();
 				}
+			},
+			reset : function(){
+				m.reset();
+				r.reset();
 			},
 			getItems : function () {
 				return  m.items;
