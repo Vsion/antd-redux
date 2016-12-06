@@ -100,7 +100,7 @@ import jQuery from 'jquery'
 				_self.$source = $input;
 				_self.data = d.data;
 				_self.value = [];
-				_self.items = {};
+				//_self.items = {};
 				var len = _self.selectedItems.length;
 				for (var i = 0; i < len; i++) {
 					_self.selectedItems[0].select(false);

@@ -4,3 +4,57 @@
   border: 1px solid #d9d9d9;
   border-radius: 6px;
 }
+.container .ant-collapse .ant-form .ant-row:nth-child(1)
+{
+  transition: all .5s;
+  overflow-y: hidden;
+}
+.container .ant-calendar-picker{
+  width: 100%;
+}
+.queryDiv{
+  width: 100%;
+  text-align: left;
+  transition: 0.5s all;
+}
+.queryDiv::before{
+  content: "\67e5\8be2\6761\4ef6\ff1a";
+  display: inline-block;
+  width: 100px;
+  text-align: right;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 5px 0;
+  margin: 5px 0;
+}
+.queryDiv .queryItem{
+  padding: 5px 10px;
+  display: inline-block;
+  box-sizing: border-box;
+  background-color: #edeff0;
+  margin: 5px 5px 5px 0;
+  position: relative;
+}
+.queryDiv .queryItem .close{
+  position: absolute;
+  right: 0;
+}
+.queryDiv .queryItem:hover{
+  padding: 5px 15px 5px 5px;
+  background-color: #40a5ed;
+  color: white;
+  transition: 0.3s all;
+  cursor: pointer;
+}
+.queryDiv .queryItem:hover::before{
+  position: absolute;
+  right: 4px;
+  content: "\E633";
+  font-family: "anticon" !important;
+}
+.queryDiv .queryItem.nodataItem{
+  padding: 5px 10px;
+}
+.queryDiv .queryItem.nodataItem:hover::before{
+  display: none;
+}

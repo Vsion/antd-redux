@@ -9,7 +9,6 @@ export default class ModalSelect extends React.Component{
   constructor (props){
     super(props);
     this.state = {
-      msObj: props.defaultMsValue,
       isReset: props.isReset,
     }
     defaultValue = props.defaultMsValue || {};
@@ -21,10 +20,11 @@ export default class ModalSelect extends React.Component{
     //inst.setValByProps(inst.getVal());
     inst.setVal();
     //inst.updateData(props.option.data);
-    if(this.props.isReset){
-      inst.reset();
-      defaultValue = {};
-    }
+    //原reset方法//修改state
+    // if(this.props.isReset){
+    //   inst.reset();
+    //   defaultValue = {};
+    // }
   }
   componentDidMount() {
     let onModalSubmit = this.props.option.onModalSubmit;
@@ -45,6 +45,10 @@ export default class ModalSelect extends React.Component{
   onSubmit(){
     !!this.props.onChange && this.props.onChange(this.inst.getVal())
     // this.setState({msObj: this.inst.getVal()});
+  }
+  resetMs(){
+    this.inst.reset();
+    defaultValue = {};
   }
   componentWillUnmount() {
     this.dispose();
@@ -88,13 +92,7 @@ export default class ModalSelect extends React.Component{
     // let inpProps = Object.assign({} ,props,{ ref : "input" ,"defaultValue":""});
     // let sourceInp = React.createElement(Input, inpProps)
     return (
-      this.props.isReset?
-      <div onChange={this.props.onChange}>
-        <Input {...inpProps} />
-        {renderInps}
-      </div>
-      :
-      <div value={this.state.msObj} onChange={this.props.onChange}>
+      <div value={defaultValue} onChange={this.props.onChange}>
         <Input {...inpProps} />
         {renderInps}
       </div>

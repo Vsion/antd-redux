@@ -2,6 +2,8 @@ import React from 'react';
 import { Form, Row, Col, Input, Button, Icon } from 'antd';
 const FormItem = Form.Item;
 import Select from '../Select/Select';
+import QueryParamsLabel from './QueryParamsLabel';
+
 import ModalSelect from '../hhModalSelect/index';
 import { HHMonthPicker, HHDatePicker, HHRangePicker } from '../HHDatePicker/HHDatePicker';
 
@@ -25,7 +27,6 @@ const HHQueryForm = React.createClass({
         ref="Form"
         Items={this.props.Items}
         Search={this.props.Search}
-        Reset={this.reset}
         btnSubmit={this.props.btnSubmit}
         btnReset={this.props.btnReset}
         showCount={this.props.showCount}
@@ -39,14 +40,18 @@ const HHForm = Form.create()(React.createClass({
       expand: false,
       isReflesh: false,
       isReset: false,
+      isShowQuery: this.props.isShowQuery,
+      params: [],
     };
   },
   componentDidUpdate(){
     //debugger
   },
-  toggle() {
-    const { expand } = this.state;
-    this.setState({ expand: !expand });
+  toggleExpand() {
+    this.setState({ expand: !this.state.expand });
+  },
+  toggleShowQuery() {
+    this.setState({ isShowQuery: !this.state.isShowQuery });
   },
   componentDidMount() {
     //console.log(this.refs.ms);
@@ -55,7 +60,7 @@ const HHForm = Form.create()(React.createClass({
   getRefs(){
     formRefs=this.refs;
   },
-  getItem(Items,i,getFieldDecorator){
+  getItem(Items,i,getFieldDecorator,formItemLayout){
     var name = Items[i].name;
     switch (Items[i].type) {
       case "Input":
@@ -138,6 +143,7 @@ const HHForm = Form.create()(React.createClass({
   },
   onSubmit(e){
     e.preventDefault();
+    let _this = this;
     this.props.form.validateFields((err, fvalues) => {
       var values = fvalues;
       this.props.Items.map(function(o,i,objs){
@@ -147,23 +153,51 @@ const HHForm = Form.create()(React.createClass({
           delete values[o.name];
         }
       });
-      this.props.Search(values);
+      _this.props.Search(values);
+      _this.setParams(values);
     });
   },
-  reset(e,form) {debugger
+  setParams(values){
+    var items = [];
+    for(var i = 0;i < this.props.Items.length; i++){
+      var o = this.props.Items[i];
+      if(o.type == "ModalSelect"){
+        var msItems = this.props.form.getFieldInstance(o.name).inst.getSelectedItems(),value = "";
+        msItems.map(function(obj,i,objs){
+          if(!!value) value += ","
+          value += obj.label;
+        });
+        items.push({label: o.label, value: value})
+      }else if(o.type == "RangePicker"){
+        items.push({label: o.label, value: values[o.name].join(" - ")})
+      }
+      else if(!!values[o.name]){
+        debugger
+        items.push({label: o.label, value: values[o.name]})
+      }
+    }
+    this.setState({params: items})
+  },
+  reset(e,form) {
     form.resetFields();
-    this.setState({isReset: true}, function(){
-      this.setState({isReset: false});
+    this.props.Items.map(function(o,i,objs){
+      if(o.type == "ModalSelect"){
+        form.getFieldInstance(o.name).resetMs();
+      }
     });
+    this.setState({params: []});
+    // this.setState({isReset: true, params: []}, function(){
+    //   this.setState({isReset: false});
+    // });
     //组件实例.reset()
   },
+
   render() {
     const { getFieldDecorator } = this.props.form;
-
     const children = [];
     let Items = this.props.Items;
     for (let i = 0; i < Items.length; i++) {
-      var item = this.getItem(Items,i,getFieldDecorator);
+      var item = this.getItem(Items,i,getFieldDecorator,formItemLayout);
       children.push(
         <Col span={6} key={i}>
             {item}
@@ -171,7 +205,7 @@ const HHForm = Form.create()(React.createClass({
       );
     }
 
-    const expand = this.state.expand;
+    const expand = this.state.expand, isShowQuery = this.state.isShowQuery;
     const shownCount = expand ? children.length : this.props.showCount;
     var _height = expand ? Math.ceil(shownCount/4)*48: 48;
     return (
@@ -181,7 +215,7 @@ const HHForm = Form.create()(React.createClass({
         onSubmit={this.onSubmit}
       >
         <Row gutter={40} style={{height: _height}} >
-          {children}{/*{children.slice(0, shownCount)}*/}
+          {children}
         </Row>
         <Row>
           <Col span={24} style={{ textAlign: 'right' }}>
@@ -194,13 +228,18 @@ const HHForm = Form.create()(React.createClass({
             }}>
               {this.props.btnReset}
             </Button>
+
             {
-              children.length>6?
-              <a style={{ marginLeft: 8, fontSize: 12 }} onClick={this.toggle}>
-                更多 <Icon type={expand ? 'up' : 'down'} />
+              children.length>4?
+              <a style={{ marginLeft: 8, fontSize: 12 }} onClick={this.toggleExpand}>
+                {expand ? "收起" : "更多"} <Icon type={expand ? 'up' : 'down'} />
               </a>:
               null
             }
+            <a style={{ marginLeft: 8, fontSize: 12 }} onClick={this.toggleShowQuery}>
+              {isShowQuery ? "收起查询条件" : "显示查询条件"} <Icon type={isShowQuery ? 'up' : 'down'} />
+            </a>
+            <QueryParamsLabel style={{height: isShowQuery? 40: 0}} params={this.state.params} />
           </Col>
         </Row>
       </Form>

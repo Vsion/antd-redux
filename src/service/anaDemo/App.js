@@ -174,7 +174,8 @@ const App = React.createClass({
                     Search={Search}
                     btnSubmit="查询"
                     btnReset="清空"
-                    showCount={4} />}],
+                    showCount={4}
+                    layoutCount={3} />}],
       ChartList :[{header: "echarts", key: "1", children:
                   <ReactEcharts
                     option={echartsOption}
