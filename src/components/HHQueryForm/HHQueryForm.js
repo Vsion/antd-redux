@@ -37,11 +37,12 @@ const HHQueryForm = React.createClass({
 const HHForm = Form.create()(React.createClass({
   getInitialState(){
     return {
-      expand: false,
+      expand: true,
       isReflesh: false,
       isReset: false,
-      isShowQuery: this.props.isShowQuery,
+      isShowQuery: true,//this.props.isShowQuery,
       params: [],
+      isSearching: false,
     };
   },
   componentDidUpdate(){
@@ -156,6 +157,9 @@ const HHForm = Form.create()(React.createClass({
       _this.props.Search(values);
       _this.setParams(values);
     });
+    this.setState({isSearching: true}, function(){
+      this.setState({isSearching: false});
+    })
   },
   setParams(values){
     var items = [];
@@ -167,18 +171,20 @@ const HHForm = Form.create()(React.createClass({
           if(!!value) value += ","
           value += obj.label;
         });
-        items.push({label: o.label, value: value})
-      }else if(o.type == "RangePicker"){
-        items.push({label: o.label, value: values[o.name].join(" - ")})
+        items.push({label: o.label, name: o.name, value: value})
       }
       else if(!!values[o.name]){
-        debugger
-        items.push({label: o.label, value: values[o.name]})
+        if(o.type == "RangePicker"){
+          items.push({label: o.label, name: o.name, value: values[o.name].join(" - ")})
+        }else {
+          items.push({label: o.label, name: o.name, value: values[o.name]})
+        }
       }
     }
     this.setState({params: items})
   },
-  reset(e,form) {
+  reset(e) {
+    var form = this.props.form;
     form.resetFields();
     this.props.Items.map(function(o,i,objs){
       if(o.type == "ModalSelect"){
@@ -191,7 +197,20 @@ const HHForm = Form.create()(React.createClass({
     // });
     //组件实例.reset()
   },
-
+  resetItem(name){
+    let Items = this.props.Items;
+    var form = this.props.form;
+    Items.map(function(o,i,objs){
+      if(o.name == name){
+        if(o.type == "ModalSelect"){
+          form.getFieldInstance(o.name).resetMs();
+        }
+        else{debugger
+          form.resetFields([name]);
+        }
+      }
+    });
+  },
   render() {
     const { getFieldDecorator } = this.props.form;
     const children = [];
@@ -221,7 +240,7 @@ const HHForm = Form.create()(React.createClass({
           <Col span={24} style={{ textAlign: 'right' }}>
             <Button type="primary" htmlType="submit">{this.props.btnSubmit}</Button>
             <Button style={{ marginLeft: 8 }} onClick={(...arg)=> {
-              this.reset(...arg,this.props.form);
+              this.reset(...arg);
               this.setState({isReflesh: true},function(){
                 this.setState({isReflesh: false});
               })
@@ -239,7 +258,7 @@ const HHForm = Form.create()(React.createClass({
             <a style={{ marginLeft: 8, fontSize: 12 }} onClick={this.toggleShowQuery}>
               {isShowQuery ? "收起查询条件" : "显示查询条件"} <Icon type={isShowQuery ? 'up' : 'down'} />
             </a>
-            <QueryParamsLabel style={{height: isShowQuery? 40: 0}} params={this.state.params} />
+            <QueryParamsLabel isSearching={this.state.isSearching} resetItem={this.resetItem} style={{height: isShowQuery? 40: 0}} params={this.state.params} />
           </Col>
         </Row>
       </Form>

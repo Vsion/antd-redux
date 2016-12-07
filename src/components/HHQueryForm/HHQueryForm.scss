@@ -35,6 +35,22 @@
   margin: 5px 5px 5px 0;
   position: relative;
 }
+.queryDiv .disqueryItem{
+  background-color: #ddd !important;
+  cursor: not-allowed !important;
+  border: 1px #999 dashed;
+  box-sizing: border-box;
+}
+.queryDiv .disqueryItem:hover{
+  padding: 5px 10px !important;
+  background-color: #ccc !important;
+  color: white;
+  transition: 0.2s all;
+}
+.queryDiv .queryItem.disqueryItem:hover::before{
+  display: none;
+}
+
 .queryDiv .queryItem .close{
   position: absolute;
   right: 0;
@@ -43,7 +59,7 @@
   padding: 5px 15px 5px 5px;
   background-color: #40a5ed;
   color: white;
-  transition: 0.3s all;
+  transition: 0.2s all;
   cursor: pointer;
 }
 .queryDiv .queryItem:hover::before{
