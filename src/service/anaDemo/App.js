@@ -87,17 +87,17 @@ let opt = {
 }
 
 const items = [
-  {name: "range", label: "range", type: "RangePicker"},
+  {name: "range", label: "range", type: "RangePicker", initialValue: "123"},
   {name: "date", label: "date", type: "DatePicker"},
   {name: "month", label: "month", type: "MonthPicker"},
-  {name: "ms",ref: "ms", placeholder: "请选择", label: "ModalSelect", type: "ModalSelect", opt: opt,defaultValue: defaultValue},
+  {name: "ms",ref: "ms", placeholder: "请选择", label: "ModalSelect", type: "ModalSelect", opt: opt,initialValue: defaultValue},
 
   {name: "input", label: "label7", placeholder: "placeholder", type: "Input"},
   {name: "select", label: "select", placeholder: "placeholder8", type: "Select",
    options: options
   },
-  {name: "input1", label: "label1", placeholder: "placeholder1", type: "Input"},
-  {name: "input2", label: "label2", placeholder: "placeholder2", type: "Input"},
+  {name: "input1", label: "label1", placeholder: "placeholder1", type: "Input", initialValue: "123"},
+  {name: "input2", label: "label2", placeholder: "placeholder2", type: "Input", initialValue: "123"},
   {name: "input3", label: "label3", placeholder: "placeholder3", type: "Input"},
   {name: "input4", label: "label4", placeholder: "placeholder4", type: "Input"},
   {name: "input5", label: "label5", placeholder: "placeholder5", type: "Input"},
@@ -160,9 +160,12 @@ const echartsOption = {
         }
     ]
 };
-function Search(values){
+function onSubmit(values){
   console.log('Received values of form: ', values);
   console.log('Received values of form(str): ', JSON.stringify(values));
+};
+function onReset(){
+
 };
 const App = React.createClass({
   getInitialState(){
@@ -171,11 +174,12 @@ const App = React.createClass({
                   <HHQueryForm
                     ref="qf"
                     Items={items}
-                    Search={Search}
-                    btnSubmit="查询"
-                    btnReset="清空"
-                    showCount={4}
-                    layoutCount={3} />}],
+                    onSubmit={onSubmit}
+                    onReset={onReset}
+                    btnSubmitLabel="查询"
+                    btnResetLabel="清空"
+                    listShowCount={5}
+                    rowLayoutCount={4} />}],
       ChartList :[{header: "echarts", key: "1", children:
                   <ReactEcharts
                     option={echartsOption}

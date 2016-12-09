@@ -26,10 +26,11 @@ const HHQueryForm = React.createClass({
       <HHForm
         ref="Form"
         Items={this.props.Items}
-        Search={this.props.Search}
-        btnSubmit={this.props.btnSubmit}
-        btnReset={this.props.btnReset}
-        showCount={this.props.showCount}
+        onSubmit={this.props.onSubmit}
+        btnSubmitLabel={this.props.btnSubmitLabel}
+        btnResetLabel={this.props.btnResetLabel}
+        listShowCount={this.props.listShowCount}
+        rowLayoutCount={this.props.rowLayoutCount}
        />
     )
   }
@@ -37,22 +38,31 @@ const HHQueryForm = React.createClass({
 const HHForm = Form.create()(React.createClass({
   getInitialState(){
     return {
-      expand: true,
+      expand: false,
       isReflesh: false,
       isReset: false,
-      isShowQuery: true,//this.props.isShowQuery,
+      isShowQuery: false,//this.props.isShowQuery,
       params: [],
-      isSearching: false,
+      isResetRangePicker: false,
+      isResetMonthPicker: false,
+      isResetDatePicker: false,
     };
   },
-  componentDidUpdate(){
-    //debugger
+  componentDidUpdate(){debugger
+    if(this.refs.qpl.refs.dom.innerText.indexOf("暂无数据") > -1 || !this.state.isShowQuery)return;
+    this.refs.qpl.refs.dom.style.height = this.refs.qpl.refs.dom.scrollHeight + "px";
   },
   toggleExpand() {
     this.setState({ expand: !this.state.expand });
+    if(this.props.toggleExpand){
+      this.props.toggleExpand();
+    }
   },
   toggleShowQuery() {
     this.setState({ isShowQuery: !this.state.isShowQuery });
+    if(this.props.toggleShowQuery){
+      this.props.toggleShowQuery();
+    }
   },
   componentDidMount() {
     //console.log(this.refs.ms);
@@ -67,79 +77,74 @@ const HHForm = Form.create()(React.createClass({
       case "Input":
         return(
           <FormItem {...formItemLayout} label={Items[i].label} title={Items[i].label}>
-            {getFieldDecorator(name)(
+            {getFieldDecorator(name, {
+               initialValue: Items[i].initialValue || null,
+            })(
               <Input onChange={onChange} placeholder={Items[i].placeholder || "请选择"} />
             )}
-          </FormItem>)
-        break;
+          </FormItem>);
       case "Select":
         return(
           <FormItem {...formItemLayout} label={Items[i].label} title={Items[i].label}>
-            {getFieldDecorator(name)(
+            {getFieldDecorator(name, {
+               initialValue: Items[i].initialValue || "",
+            })(
               <Select placeholder="请选择" options={Items[i].options} />
             )}
           </FormItem>);
-        break;
       case "RangePicker":
         return(
+          this.state.isResetRangePicker? null :
           <FormItem {...formItemLayout} label={Items[i].label} title={Items[i].label}>
             {getFieldDecorator(name, {
                rules: [{ type: 'array' }],
+               initialValue: Items[i].initialValue || null,
                getValueFromEvent : (date, dateString) => {
                  return dateString
                }
              })(
-              <HHRangePicker isReflesh={this.state.isReflesh} format="YYYY-MM-DD HH:mm:ss" showTime={true} disabledDate={Items[i].disabledDate || null} disabledTime={Items[i].disabledTime || null} onChange={Items[i].onChange || null} /> : null
+              <HHRangePicker isReflesh={this.state.isReflesh} format="YYYY-MM-DD HH:mm:ss" showTime={true} disabledDate={Items[i].disabledDate || null} disabledTime={Items[i].disabledTime || null} onChange={Items[i].onChange || null} />
              )}
            </FormItem>);
-        break;
       case "DatePicker":
         return(
+          this.state.isResetDatePicker? null :
           <FormItem {...formItemLayout} label={Items[i].label} title={Items[i].label}>
             {getFieldDecorator(name, {
                rules: [{ type: 'string' }],
+               initialValue: Items[i].initialValue || null,
                getValueFromEvent : (date, dateString) => {
                  return dateString
                }
              })(
-              <HHDatePicker isReflesh={this.state.isReflesh} format="YYYY-MM-DD" showTime={false} disabledDate={Items[i].disabledDate || null} disabledTime={Items[i].disabledTime || null} onChange={Items[i].onChange || null} /> : null
+              <HHDatePicker isReflesh={this.state.isReflesh} format="YYYY-MM-DD" showTime={false} disabledDate={Items[i].disabledDate || null} disabledTime={Items[i].disabledTime || null} onChange={Items[i].onChange || null} />
              )}
            </FormItem>);
-        break;
       case "MonthPicker":
         return(
+          this.state.isResetMonthPicker? null :
           <FormItem {...formItemLayout} label={Items[i].label} title={Items[i].label}>
             {getFieldDecorator(name, {
                rules: [{ type: 'string' }],
+               initialValue: Items[i].initialValue || null,
                getValueFromEvent : (date, dateString) => {
                  return dateString
                }
              })(
-              <HHMonthPicker isReflesh={this.state.isReflesh} format="YYYY-MM" showTime={true} disabledDate={Items[i].disabledDate || null} disabledTime={Items[i].disabledTime || null} onChange={Items[i].onChange || null} /> : null
+              <HHMonthPicker isReflesh={this.state.isReflesh} format="YYYY-MM" showTime={true} disabledDate={Items[i].disabledDate || null} disabledTime={Items[i].disabledTime || null} onChange={Items[i].onChange || null} /> 
              )}
            </FormItem>);
-        break;
       case "ModalSelect":
         return(
+          //自定义模块组件 引入到FormItem getFieldDecorator中
           <FormItem {...formItemLayout} label={Items[i].label}>
-            {/*}{getFieldDecorator(name, {
-               rules: [{ type: 'string' }],
-               getValueFromEvent : (date, dateString) => {
-                 return dateString
-               },
-               getFieldDecorator: Items[i].defaultValue,
-             })(
-
-             )}*/}
              {getFieldDecorator(name)(
-                <ModalSelect isReset={this.state.isReset} size="large" onChange={onChange} placeholder={Items[i].placeholder} option={Items[i].opt} defaultMsValue={Items[i].defaultValue}/>
+                <ModalSelect isReset={this.state.isReset} size="large" onChange={onChange} placeholder={Items[i].placeholder} option={Items[i].opt} defaultMsValue={Items[i].initialValue}/>
              )}
            </FormItem>);
-        break;
 
       default:
         return null;
-        break;
     }
   },
   onSubmit(e){
@@ -154,12 +159,9 @@ const HHForm = Form.create()(React.createClass({
           delete values[o.name];
         }
       });
-      _this.props.Search(values);
+      _this.props.onSubmit(values);
       _this.setParams(values);
     });
-    this.setState({isSearching: true}, function(){
-      this.setState({isSearching: false});
-    })
   },
   setParams(values){
     var items = [];
@@ -167,11 +169,20 @@ const HHForm = Form.create()(React.createClass({
       var o = this.props.Items[i];
       if(o.type == "ModalSelect"){
         var msItems = this.props.form.getFieldInstance(o.name).inst.getSelectedItems(),value = "";
-        msItems.map(function(obj,i,objs){
-          if(!!value) value += ","
-          value += obj.label;
+        if(msItems.length > 0){
+          msItems.map(function(obj,i,objs){
+            if(!!value) value += ","
+            value += obj.label;
+          });
+          items.push({label: o.label, name: o.name, value: value});
+        }
+      }
+      else if(o.type == "Select"){
+        o.options.map(function(oo, ii, oobjs){
+          if(oo.value == values[o.name]){
+            items.push({label: o.label, name: o.name, value: oo.text});
+          }
         });
-        items.push({label: o.label, name: o.name, value: value})
       }
       else if(!!values[o.name]){
         if(o.type == "RangePicker"){
@@ -192,18 +203,30 @@ const HHForm = Form.create()(React.createClass({
       }
     });
     this.setState({params: []});
-    // this.setState({isReset: true, params: []}, function(){
-    //   this.setState({isReset: false});
-    // });
-    //组件实例.reset()
   },
   resetItem(name){
     let Items = this.props.Items;
     var form = this.props.form;
+    var _this = this;
     Items.map(function(o,i,objs){
       if(o.name == name){
         if(o.type == "ModalSelect"){
           form.getFieldInstance(o.name).resetMs();
+        }
+        if(o.type == "RangePicker"){
+          _this.setState({isResetRangePicker: true}, function(){
+            _this.setState({isResetRangePicker: false});
+          })
+        }
+        if(o.type == "DatePicker"){
+          _this.setState({isResetDatePicker: true}, function(){
+            _this.setState({isResetDatePicker: false});
+          })
+        }
+        if(o.type == "MonthPicker"){
+          _this.setState({isResetMonthPicker: true}, function(){
+            _this.setState({isResetMonthPicker: false});
+          })
         }
         else{debugger
           form.resetFields([name]);
@@ -211,22 +234,30 @@ const HHForm = Form.create()(React.createClass({
       }
     });
   },
+  getSpan(c){
+    c = parseInt(c);
+    if(c < 25 && c > 0)
+    return 24 / c;
+  },
   render() {
+    const layoutCount = this.props.rowLayoutCount;
+    const span = this.getSpan(layoutCount)
     const { getFieldDecorator } = this.props.form;
     const children = [];
     let Items = this.props.Items;
     for (let i = 0; i < Items.length; i++) {
       var item = this.getItem(Items,i,getFieldDecorator,formItemLayout);
       children.push(
-        <Col span={6} key={i}>
+        <Col span={span} key={i}>
             {item}
         </Col>
       );
     }
 
     const expand = this.state.expand, isShowQuery = this.state.isShowQuery;
-    const shownCount = expand ? children.length : this.props.showCount;
-    var _height = expand ? Math.ceil(shownCount/4)*48: 48;
+    const showCount = expand ? children.length : this.props.listShowCount;
+    var _height = expand ? Math.ceil(showCount/layoutCount)*48: Math.ceil(this.props.listShowCount/layoutCount)* 48;
+
     return (
       <Form
         horizontal
@@ -238,14 +269,14 @@ const HHForm = Form.create()(React.createClass({
         </Row>
         <Row>
           <Col span={24} style={{ textAlign: 'right' }}>
-            <Button type="primary" htmlType="submit">{this.props.btnSubmit}</Button>
+            <Button type="primary" htmlType="submit">{this.props.btnSubmitLabel}</Button>
             <Button style={{ marginLeft: 8 }} onClick={(...arg)=> {
               this.reset(...arg);
               this.setState({isReflesh: true},function(){
                 this.setState({isReflesh: false});
               })
             }}>
-              {this.props.btnReset}
+              {this.props.btnResetLabel}
             </Button>
 
             {
@@ -258,7 +289,7 @@ const HHForm = Form.create()(React.createClass({
             <a style={{ marginLeft: 8, fontSize: 12 }} onClick={this.toggleShowQuery}>
               {isShowQuery ? "收起查询条件" : "显示查询条件"} <Icon type={isShowQuery ? 'up' : 'down'} />
             </a>
-            <QueryParamsLabel isSearching={this.state.isSearching} resetItem={this.resetItem} style={{height: isShowQuery? 40: 0}} params={this.state.params} />
+            <QueryParamsLabel ref="qpl" resetItem={this.resetItem} style={{height: isShowQuery? 41: 0}} params={this.state.params} />
           </Col>
         </Row>
       </Form>

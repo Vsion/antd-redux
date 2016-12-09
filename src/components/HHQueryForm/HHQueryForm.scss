@@ -36,16 +36,18 @@
   position: relative;
 }
 .queryDiv .disqueryItem{
-  background-color: #ddd !important;
+  background-color: #efefef !important;
   cursor: not-allowed !important;
-  border: 1px #999 dashed;
+  border: 1px #bbb dashed;
   box-sizing: border-box;
+  color: #bbb;
 }
 .queryDiv .disqueryItem:hover{
   padding: 5px 10px !important;
   background-color: #ccc !important;
   color: white;
   transition: 0.2s all;
+  border: 1px dashed #fff;
 }
 .queryDiv .queryItem.disqueryItem:hover::before{
   display: none;
@@ -73,4 +75,12 @@
 }
 .queryDiv .queryItem.nodataItem:hover::before{
   display: none;
+}
+
+.queryDiv .ant-calendar-range-picker{
+  white-space: nowrap;
+}
+
+.container .ant-collapse-content-box{
+  padding: 10px 0 7px 0 !important;
 }

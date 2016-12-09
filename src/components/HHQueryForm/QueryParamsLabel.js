@@ -2,37 +2,59 @@ import React from 'react';
 import { Icon } from 'antd';
 require('./HHQueryForm.scss');
 let params;
+const Label = React.createClass({
+  getInitialState(){
+    return {
+      isDisabled: false,
+      value: this.props.value
+    }
+  },
+  onClick(e){
+    if(this.state.isDisabled) return;
+    this.setState({isDisabled: true});
+    this.props.onClick(e);
+  },
+  componentDidUpdate(){
+    if(!this.state.isDisabled){
+      return;
+    }
+    if(this.props.value.toString() != this.state.value.toString()){
+      this.setState({isDisabled: false, value: this.props.value.toString()});
+    }
+  },
+  render(){
+    let className = "queryItem";
+    if(this.state.isDisabled){
+      className = "queryItem disqueryItem";
+    }
+    return (
+      <div name={this.props.name} onClick={this.onClick} title={this.props.title} className={className}>{this.props.children}</div>
+    )
+  }
+});
 const QueryParamsLabel = React.createClass({
   onClick(e){
-    if(e.target.getAttribute("disabled") == "disabled")return;
-    e.target.setAttribute("class", "queryItem disqueryItem");
-    e.target.setAttribute("disabled", "disabled");
     this.props.resetItem(e.target.getAttribute("name"));
   },
   render(){
-    if(this.props.isSearching){
-      return (
-        null
-      )
-    }
     let items = [];
     if(params != this.props.params){
       params = this.props.params;
     }
     let _this = this;
     params.map(function(o,i,objs){
-      var title = o.value.replace(",", "\n");
+      var title = o.value.replace(/,/g, "\n");
       var value = o.value;
       if(value.length > 6){
         value = value.substr(0,5) + "...";
       }
-      items.push(<div name={o.name} onClick={_this.onClick} title={title} key={items.length} className="queryItem">{o.label}: {value}</div>);
+      items.push(<Label value={o.value} name={o.name} onClick={_this.onClick} title={title} key={o.name}>{o.label}: {value}</Label>);
     });
     if(items.length < 1) {
       items = <div className="queryItem nodataItem">暂无数据</div>;
     }
     return(
-      <div style={this.props.style} className="queryDiv">
+      <div ref="dom" style={this.props.style} className="queryDiv">
         {items}
       </div>
     )
