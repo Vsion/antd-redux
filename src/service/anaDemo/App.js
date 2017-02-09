@@ -24,13 +24,10 @@ let gridData = [
   {col0:"1",col1:"2",col2:"3"}
 ]
 
-const options = [
-  {value: "1", text: "111"},
-  {value: "2", text: "222"},
-  {value: "3", text: "333"},
-  {value: "4", text: "444"},
-  {value: "5", text: "555"},
-]
+let options = [];
+for(var i = 0; i< 6; i++ ){
+  options.push({value: i.toString(), key:i, text: i + "测试"});
+}
 
 let gridOpt = {
   height:400,
@@ -191,18 +188,17 @@ const App = React.createClass({
                    <div>这是一个测试的child</div> }],
     }
   },
-
   render() {
     return (
       <div className="container">
-        <HHPanel PanelList={this.state.CheckList} defaultActiveKey="1" onChange={this.onChange} />
-        <HHPanel PanelList={this.state.ChartList} defaultActiveKey="1" onChange={this.onChange} />
-        <HHPanel PanelList={this.state.PanelList2} defaultActiveKey="1" onChange={this.onChange} />
+        <HHPanel ref="a" itemName="1" PanelList={this.state.CheckList} defaultActiveKey="1" onChange={this.onChange} />
+        <HHPanel ref="b" itemName="2" PanelList={this.state.ChartList} defaultActiveKey="1" onChange={this.onChange} />
+        <HHPanel ref="c" itemName="3" PanelList={this.state.PanelList2} defaultActiveKey="1" onChange={this.onChange} />
       </div>
     );
   },
   componentDidMount() {
-    // debugger
+    //debugger
     //console.log(this.refs.qf.getRefs());
   }
 });

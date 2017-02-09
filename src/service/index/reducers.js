@@ -6,11 +6,11 @@ export default (state = {
   nodes:[],
   openKeys:[],
   panes: [
-    { title: '分析页', url: './anaDemo', key: 'card', menuKey: 'anaDemo' },
+    { title: '测试页面', url: './test', key: 'test', menuKey: 'test' },
     //{ title: 'tab2复刻', url: './tab2', key: 'tab2123', menuKey: 'tab2' },
     //{ title: 'tab2下钻', url: './tab2', key: 'tab21232', menuKey: '' },
   ],
-  activeKey: "anaDemo",
+  activeKey: "test",
   breadCrumb: {key: "", items:[{title: "首页", url: "#"}]},
 }, action) => {
   switch (action.type) {

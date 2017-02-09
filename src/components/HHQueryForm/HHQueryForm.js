@@ -48,7 +48,7 @@ const HHForm = Form.create()(React.createClass({
       isResetDatePicker: false,
     };
   },
-  componentDidUpdate(){debugger
+  componentDidUpdate(){
     if(this.refs.qpl.refs.dom.innerText.indexOf("暂无数据") > -1 || !this.state.isShowQuery)return;
     this.refs.qpl.refs.dom.style.height = this.refs.qpl.refs.dom.scrollHeight + "px";
   },
@@ -131,7 +131,7 @@ const HHForm = Form.create()(React.createClass({
                  return dateString
                }
              })(
-              <HHMonthPicker isReflesh={this.state.isReflesh} format="YYYY-MM" showTime={true} disabledDate={Items[i].disabledDate || null} disabledTime={Items[i].disabledTime || null} onChange={Items[i].onChange || null} /> 
+              <HHMonthPicker isReflesh={this.state.isReflesh} format="YYYY-MM" showTime={true} disabledDate={Items[i].disabledDate || null} disabledTime={Items[i].disabledTime || null} onChange={Items[i].onChange || null} />
              )}
            </FormItem>);
       case "ModalSelect":
@@ -228,7 +228,7 @@ const HHForm = Form.create()(React.createClass({
             _this.setState({isResetMonthPicker: false});
           })
         }
-        else{debugger
+        else{
           form.resetFields([name]);
         }
       }

@@ -65,6 +65,14 @@
   },
   {
     "icon": "play-circle",
+    "key": "test",
+    "level": 2,
+    "pkey":"sub3_2",
+    "url":"./test",
+    "title": "测试页面"
+  },
+  {
+    "icon": "play-circle",
     "key": "form",
     "level": 1,
     "pkey":"sub1",
