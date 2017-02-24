@@ -4,7 +4,7 @@ import "./jquery.hhmodalselect.css";
 import "./react.hhmodalselect.scss";
 import {Input,Checkbox} from 'antd';
 
-let defaultValue;
+let defaultValue, isInit = false;
 export default class ModalSelect extends React.Component{
   constructor (props){
     super(props);
@@ -40,7 +40,7 @@ export default class ModalSelect extends React.Component{
     $clearBtn.addClass('ant-btn');
     $submit.addClass('ant-btn ant-btn-primary');
     $cancel.addClass('ant-btn');
-    this.props.onChange(this.inst.getVal());//获取默认值
+    !!this.props.onChange && this.props.onChange(this.inst.getVal());//获取默认值
   }
   onSubmit(){
     !!this.props.onChange && this.props.onChange(this.inst.getVal())
@@ -48,7 +48,7 @@ export default class ModalSelect extends React.Component{
   }
   resetMs(){
     this.inst.reset();
-    defaultValue = {};
+    //defaultValue = {};
   }
   componentWillUnmount() {
     this.dispose();
@@ -69,12 +69,17 @@ export default class ModalSelect extends React.Component{
     return {};
   }
   render(){
+    debugger
     let props = this.props;
     let outInps = props.option.outputDom || [];
     let renderInps = outInps.map((opt) => {
-      let val = defaultValue[opt.name] || ""
+      //let val = !isInit ? defaultValue[opt.name] || "" : "";
+      let val = defaultValue[opt.name];
       return <input type="hidden" id={opt.id} name={opt.name} key={opt.id} defaultValue={val} />;
-    })
+    });
+    if(!isInit){
+      isInit = true;
+    }
     var inpProps = {
       type : props.type,
       id : props.id,
@@ -92,7 +97,7 @@ export default class ModalSelect extends React.Component{
     // let inpProps = Object.assign({} ,props,{ ref : "input" ,"defaultValue":""});
     // let sourceInp = React.createElement(Input, inpProps)
     return (
-      <div value={defaultValue} onChange={this.props.onChange}>
+      <div onChange={this.props.onChange}>
         <Input {...inpProps} />
         {renderInps}
       </div>

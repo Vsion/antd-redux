@@ -52,6 +52,6 @@ export default connect(
     );
   }
   componentDidMount(){
-    debugger
+    //debugger
   }
 })

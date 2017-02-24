@@ -16,7 +16,7 @@ const formItemLayout = {
 let onChange = (msObj)=>{
   //debugger
 }
-let formRefs;
+let formRefs, isInit = false;
 const HHQueryForm = React.createClass({
   getRefs(){
     return formRefs;
@@ -27,6 +27,7 @@ const HHQueryForm = React.createClass({
         ref="Form"
         Items={this.props.Items}
         onSubmit={this.props.onSubmit}
+        onReset={this.props.onReset}
         btnSubmitLabel={this.props.btnSubmitLabel}
         btnResetLabel={this.props.btnResetLabel}
         listShowCount={this.props.listShowCount}
@@ -73,12 +74,14 @@ const HHForm = Form.create()(React.createClass({
   },
   getItem(Items,i,getFieldDecorator,formItemLayout){
     var name = Items[i].name;
+    //var initValue = isInit ? null : Items[i].initialValue;
+    var initValue = Items[i].initialValue;
     switch (Items[i].type) {
       case "Input":
         return(
           <FormItem {...formItemLayout} label={Items[i].label} title={Items[i].label}>
             {getFieldDecorator(name, {
-               initialValue: Items[i].initialValue || null,
+               initialValue: initValue || null,
             })(
               <Input onChange={onChange} placeholder={Items[i].placeholder || "请选择"} />
             )}
@@ -87,7 +90,7 @@ const HHForm = Form.create()(React.createClass({
         return(
           <FormItem {...formItemLayout} label={Items[i].label} title={Items[i].label}>
             {getFieldDecorator(name, {
-               initialValue: Items[i].initialValue || "",
+               initialValue: initValue || "",
             })(
               <Select placeholder="请选择" options={Items[i].options} />
             )}
@@ -98,7 +101,7 @@ const HHForm = Form.create()(React.createClass({
           <FormItem {...formItemLayout} label={Items[i].label} title={Items[i].label}>
             {getFieldDecorator(name, {
                rules: [{ type: 'array' }],
-               initialValue: Items[i].initialValue || null,
+               initialValue: initValue || null,
                getValueFromEvent : (date, dateString) => {
                  return dateString
                }
@@ -112,7 +115,7 @@ const HHForm = Form.create()(React.createClass({
           <FormItem {...formItemLayout} label={Items[i].label} title={Items[i].label}>
             {getFieldDecorator(name, {
                rules: [{ type: 'string' }],
-               initialValue: Items[i].initialValue || null,
+               initialValue: initValue || null,
                getValueFromEvent : (date, dateString) => {
                  return dateString
                }
@@ -126,7 +129,7 @@ const HHForm = Form.create()(React.createClass({
           <FormItem {...formItemLayout} label={Items[i].label} title={Items[i].label}>
             {getFieldDecorator(name, {
                rules: [{ type: 'string' }],
-               initialValue: Items[i].initialValue || null,
+               initialValue: initValue || null,
                getValueFromEvent : (date, dateString) => {
                  return dateString
                }
@@ -139,7 +142,7 @@ const HHForm = Form.create()(React.createClass({
           //自定义模块组件 引入到FormItem getFieldDecorator中
           <FormItem {...formItemLayout} label={Items[i].label}>
              {getFieldDecorator(name)(
-                <ModalSelect isReset={this.state.isReset} size="large" onChange={onChange} placeholder={Items[i].placeholder} option={Items[i].opt} defaultMsValue={Items[i].initialValue}/>
+                <ModalSelect isReset={this.state.isReset} size="large" onChange={onChange} placeholder={Items[i].placeholder} option={Items[i].opt} defaultMsValue={initValue}/>
              )}
            </FormItem>);
 
@@ -185,9 +188,10 @@ const HHForm = Form.create()(React.createClass({
         });
       }
       else if(!!values[o.name]){
-        if(o.type == "RangePicker"){
+        if(o.type == "RangePicker" && Array.isArray(values[o.name]) && !!values[o.name][0] && !!values[o.name][1]){
           items.push({label: o.label, name: o.name, value: values[o.name].join(" - ")})
-        }else {
+        }
+        else{
           items.push({label: o.label, name: o.name, value: values[o.name]})
         }
       }
@@ -203,6 +207,7 @@ const HHForm = Form.create()(React.createClass({
       }
     });
     this.setState({params: []});
+    this.props.onReset();//回调
   },
   resetItem(name){
     let Items = this.props.Items;
@@ -257,7 +262,7 @@ const HHForm = Form.create()(React.createClass({
     const expand = this.state.expand, isShowQuery = this.state.isShowQuery;
     const showCount = expand ? children.length : this.props.listShowCount;
     var _height = expand ? Math.ceil(showCount/layoutCount)*48: Math.ceil(this.props.listShowCount/layoutCount)* 48;
-
+    isInit = true;
     return (
       <Form
         horizontal

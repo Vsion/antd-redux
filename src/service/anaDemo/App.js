@@ -84,7 +84,7 @@ let opt = {
 }
 
 const items = [
-  {name: "range", label: "range", type: "RangePicker", initialValue: "123"},
+  {name: "range", label: "range", type: "RangePicker", initialValue: ["2017-01-01 00:00:00", "2017-01-02 00:00:00"]},
   {name: "date", label: "date", type: "DatePicker"},
   {name: "month", label: "month", type: "MonthPicker"},
   {name: "ms",ref: "ms", placeholder: "请选择", label: "ModalSelect", type: "ModalSelect", opt: opt,initialValue: defaultValue},
@@ -174,7 +174,7 @@ const App = React.createClass({
                     onSubmit={onSubmit}
                     onReset={onReset}
                     btnSubmitLabel="查询"
-                    btnResetLabel="清空"
+                    btnResetLabel="重置"
                     listShowCount={5}
                     rowLayoutCount={4} />}],
       ChartList :[{header: "echarts", key: "1", children:
