@@ -69,7 +69,6 @@ export default class ModalSelect extends React.Component{
     return {};
   }
   render(){
-    debugger
     let props = this.props;
     let outInps = props.option.outputDom || [];
     let renderInps = outInps.map((opt) => {

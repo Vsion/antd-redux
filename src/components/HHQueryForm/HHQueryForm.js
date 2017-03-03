@@ -36,7 +36,10 @@ const HHQueryForm = React.createClass({
     )
   }
 });
-const HHForm = Form.create()(React.createClass({
+const HHForm = Form.create({mapPropsToFields: function(){
+  //debugger
+  return { input1: {value : "随意"} }
+}})(React.createClass({
   getInitialState(){
     return {
       expand: false,
@@ -74,8 +77,7 @@ const HHForm = Form.create()(React.createClass({
   },
   getItem(Items,i,getFieldDecorator,formItemLayout){
     var name = Items[i].name;
-    //var initValue = isInit ? null : Items[i].initialValue;
-    var initValue = Items[i].initialValue;
+    var initValue = isInit ? Items[i].initialValue : null
     switch (Items[i].type) {
       case "Input":
         return(
