@@ -1,6 +1,6 @@
 var express = require('express')
 var webpack = require('webpack')
-var webpackConfig = require('./webpack.dev.config');
+var webpackConfig = require('./webpack.config');
 var port = 3000;
 var app = express();
 var path = require('path');

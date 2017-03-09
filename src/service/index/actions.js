@@ -1,4 +1,3 @@
-import Moment from 'Moment';
 
 export const toggleMenu = (state) => {
   return {

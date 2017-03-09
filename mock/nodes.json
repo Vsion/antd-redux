@@ -49,6 +49,14 @@
   },
   {
     "icon": "play-circle",
+    "key": "sub3_2",
+    "level": 1,
+    "pkey":"sub3",
+    "url":"./RModalSelect",
+    "title": "React版模态选择框"
+  },
+  {
+    "icon": "play-circle",
     "key": "sub3_1",
     "level": 1,
     "pkey":"sub3",

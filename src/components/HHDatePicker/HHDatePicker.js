@@ -7,7 +7,7 @@ import enUS from 'antd/lib/date-picker/locale/en_US';
 
 let locale = enUS;//
 let defaultValue = null;//moment().locale('en').utcOffset(0);//时间
-
+const style = {width: "auto"}
 function range(start, end) {
   const result = [];
   for (let i = start; i < end; i++) {
@@ -105,6 +105,7 @@ const HHRangePicker = React.createClass({
      }
      return(
        !isReflesh?<RangePicker
+         ref="rp"
          placeholder={placeholder}
          startPlaceholder={this.props.startPlaceholder || "开始时间"}
          endPlaceholder={this.props.endPlaceholder || "结束时间"}
@@ -115,9 +116,13 @@ const HHRangePicker = React.createClass({
          disabledDate={this.props.disabledDate || disabledDate}
          disabledTime={this.props.disabledTime || disabledTime}
          onChange={this.props.onChange || null}
+         style={style}
        />:null
      );
    },
+   componentDidMount(){
+     //debugger
+   }
  });
 
 module.exports = {

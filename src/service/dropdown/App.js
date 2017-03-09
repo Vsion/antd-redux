@@ -1,4 +1,3 @@
-import common from 'svc2Src/util/js/common'
 import React from 'react';
 import {render} from 'react-dom';
 import HHPopconfirm from 'svc2Src/components/HHPopconfirm/HHPopconfirm';

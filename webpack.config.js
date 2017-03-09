@@ -20,8 +20,9 @@ var webpackConfig = {
       'eventsource-polyfill',
       'fetch-ie8',
       'babel-polyfill',
-      'react',
-      'react-dom'
+      'react','react-dom',
+      'redux','react-redux',
+      'lodash'
     ]
   },
   output: {
@@ -74,6 +75,9 @@ var webpackConfig = {
     new webpack.optimize.OccurenceOrderPlugin(),
     new ExtractTextPlugin('util/css/[name].css'),
     new webpack.DefinePlugin({
+      // 'process.env':{
+      //   'NODE_ENV': JSON.stringify('production')
+      // },
       __DEBUG__: JSON.stringify(JSON.parse('false')), // 开发调试时把它改为true
     }),
     new HtmlWebpackPlugin({
@@ -97,7 +101,15 @@ var webpackConfig = {
           ) === 0
         )
       }
-    })
+    }),
+    // new webpack.optimize.UglifyJsPlugin({
+    //     mangle: {
+    //         except: ['$super', '$', 'exports', 'require']
+    //     },
+    //     compress: {
+    //         warnings: false
+    //     }
+    // })
   ]
 };
 // 获取指定路径下的入口文件

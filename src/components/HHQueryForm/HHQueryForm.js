@@ -13,7 +13,10 @@ const formItemLayout = {
   labelCol: { span: 8 },
   wrapperCol: { span: 16 },
 };
-let onChange = (msObj)=>{
+let onMsChange = (msObj)=>{
+  //debugger
+}
+let onInputChange = (value)=>{
   //debugger
 }
 let formRefs, isInit = false;
@@ -36,10 +39,7 @@ const HHQueryForm = React.createClass({
     )
   }
 });
-const HHForm = Form.create({mapPropsToFields: function(){
-  //debugger
-  return { input1: {value : "随意"} }
-}})(React.createClass({
+const HHForm = Form.create()(React.createClass({
   getInitialState(){
     return {
       expand: false,
@@ -77,7 +77,7 @@ const HHForm = Form.create({mapPropsToFields: function(){
   },
   getItem(Items,i,getFieldDecorator,formItemLayout){
     var name = Items[i].name;
-    var initValue = isInit ? Items[i].initialValue : null
+    var initValue = Items[i].initialValue//isInit ?  : null
     switch (Items[i].type) {
       case "Input":
         return(
@@ -85,7 +85,7 @@ const HHForm = Form.create({mapPropsToFields: function(){
             {getFieldDecorator(name, {
                initialValue: initValue || null,
             })(
-              <Input onChange={onChange} placeholder={Items[i].placeholder || "请选择"} />
+              <Input onChange={onInputChange} placeholder={Items[i].placeholder || "请选择"} />
             )}
           </FormItem>);
       case "Select":
@@ -144,7 +144,7 @@ const HHForm = Form.create({mapPropsToFields: function(){
           //自定义模块组件 引入到FormItem getFieldDecorator中
           <FormItem {...formItemLayout} label={Items[i].label}>
              {getFieldDecorator(name)(
-                <ModalSelect isReset={this.state.isReset} size="large" onChange={onChange} placeholder={Items[i].placeholder} option={Items[i].opt} defaultMsValue={initValue}/>
+                <ModalSelect isReset={this.state.isReset} size="large" onChange={onMsChange} placeholder={Items[i].placeholder} option={Items[i].opt} defaultMsValue={initValue}/>
              )}
            </FormItem>);
 
@@ -267,7 +267,8 @@ const HHForm = Form.create({mapPropsToFields: function(){
     isInit = true;
     return (
       <Form
-        horizontal
+        layout="horizontal"
+        // horizontal
         className="ant-advanced-search-form"
         onSubmit={this.onSubmit}
       >

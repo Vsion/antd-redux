@@ -1,13 +1,12 @@
 import React from 'react';
-import {Button, Icon } from 'antd';
+import {Button, Icon, Input } from 'antd';
 
 require('svc2Src/util/css/common.scss');
 
 import { connect } from 'react-redux'
 import { bindActionCreators ,createStore} from 'redux'
 import * as Actions from './actions'
-
-import getCarrier from 'svc2Src/util/js/Carrier';
+import RModalSelect from 'svc2Src/components/HHRModalSelect/index';
 
 let carrier;
 
@@ -22,29 +21,23 @@ const mapDispatchToProps = (dispatch, ownProps) => {
        actions : bindActionCreators(Actions,dispatch)
    }
 }
-
-export default connect(
-  mapStateToProps,mapDispatchToProps
-)(class App extends React.Component {
+class App extends React.Component {
   constructor (props) {
     super(props);
-    carrier = getCarrier(this.props.actions,['testGetCarrier'])
   }
   onClick (){
-    var _this = this;
-    var number = parseInt(Math.random()*100).toString();
-    carrier.dispatch({
-      params: number,
-      fnName: "testGetCarrierFn",
-      tag: "testGetCarrier",
-    });
+
   }
   render() {
     return (
-        <div className="bodyDiv">
-          linkTo page Tab3[loading测试页面] + 看这里 <span style={{fontSize: "20px"}}>{this.props.text}</span>
+        <div className="bodyDiv" style={{padding: "30px"}}>
+          <RModalSelect style={{width: "300px"}} />
           <Button onClick={this.onClick}><Icon type="search" />点击</Button>
         </div>
     );
   }
-})
+}
+
+export default connect(
+  mapStateToProps,mapDispatchToProps
+)(App);

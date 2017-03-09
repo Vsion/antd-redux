@@ -4,17 +4,15 @@ import "./jquery.hhmodalselect.css";
 import "./react.hhmodalselect.scss";
 import {Input,Checkbox} from 'antd';
 
-let defaultValue, isInit = false;
+let isInit = false, text = "";
 export default class ModalSelect extends React.Component{
   constructor (props){
     super(props);
     this.state = {
       isReset: props.isReset,
     }
-    defaultValue = props.defaultMsValue || {};
   }
   componentDidUpdate(props) {
-
     let pOpt = props.option;
     let inst =this.inst;
     //inst.setValByProps(inst.getVal());
@@ -28,10 +26,16 @@ export default class ModalSelect extends React.Component{
   }
   componentDidMount() {
     let onModalSubmit = this.props.option.onModalSubmit;
-    let option = Object.assign(this.props.option,{onModalSubmit:()=>{
-      this.onSubmit();
-      !!onModalSubmit && onModalSubmit();
-    }})
+    let onModalCancel = this.props.option.onModalCancel;
+    let option = Object.assign(this.props.option,{
+      onModalSubmit:()=>{
+        this.onSubmit();
+        !!onModalSubmit && onModalSubmit();
+      },
+      onModalCancel: ()=>{
+        this.onCancel();
+        !!onModalCancel && onModalCancel();
+      }})
     this.inst = $(this.refs.input.refs.input).hhModalSelect(option);
     this.inst.setDefalutVal();
     let $clearBtn = this.inst.getDoms()[1].$clearBtn;
@@ -40,11 +44,19 @@ export default class ModalSelect extends React.Component{
     $clearBtn.addClass('ant-btn');
     $submit.addClass('ant-btn ant-btn-primary');
     $cancel.addClass('ant-btn');
-    !!this.props.onChange && this.props.onChange(this.inst.getVal());//获取默认值
+    this.onChange(this.inst.getVal());//获取默认值
+    // let _this = this;
+    // $(this.refs.input.refs.input).on("click", function(){
+    //   _this.onChange();
+    // })
   }
+
   onSubmit(){
-    !!this.props.onChange && this.props.onChange(this.inst.getVal())
+    this.onChange(this.inst.getVal())
     // this.setState({msObj: this.inst.getVal()});
+  }
+  onCancel(){
+    this.onChange(this.inst.getVal())
   }
   resetMs(){
     this.inst.reset();
@@ -63,6 +75,13 @@ export default class ModalSelect extends React.Component{
     this.inst.dispose();
   }
   onChange(value){
+    // debugger
+    // this.refs["input"].value = value || "";
+    var val = this.inst.getSelectedItems().map(function(item){return item.label}).join(",")
+    text = val;
+    this.refs['input'].refs['input'].value = val || ""
+  }
+  onClick(){
 
   }
   resetFun(){
@@ -71,18 +90,18 @@ export default class ModalSelect extends React.Component{
   render(){
     let props = this.props;
     let outInps = props.option.outputDom || [];
+    let defaultValue = props.defaultMsValue || {};
     let renderInps = outInps.map((opt) => {
-      //let val = !isInit ? defaultValue[opt.name] || "" : "";
       let val = defaultValue[opt.name];
       return <input type="hidden" id={opt.id} name={opt.name} key={opt.id} defaultValue={val} />;
     });
-    if(!isInit){
-      isInit = true;
-    }
+    // if(!isInit){
+    //   isInit = true;
+    // }
     var inpProps = {
       type : props.type,
       id : props.id,
-      value : props.value,
+      value : text || "",
       size : props.size,
       disabled : props.disabled,
       addonBefore : props.addonBefore,
@@ -91,13 +110,15 @@ export default class ModalSelect extends React.Component{
       autosize : props.autosize,
       defaultValue : "",
       ref : "input",
-      placeholder: props.placeholder
+      placeholder: props.placeholder,
+      onClick: this.onClick
+
     }
     // let inpProps = Object.assign({} ,props,{ ref : "input" ,"defaultValue":""});
     // let sourceInp = React.createElement(Input, inpProps)
     return (
-      <div onChange={this.props.onChange}>
-        <Input {...inpProps} />
+      <div onChange={this.onChange}>
+        <Input {...inpProps}/>
         {renderInps}
       </div>
     )
