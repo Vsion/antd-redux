@@ -1,5 +1,4 @@
 import React from 'react';
-import {Button, Icon, Input } from 'antd';
 
 require('svc2Src/util/css/common.scss');
 
@@ -32,7 +31,6 @@ class App extends React.Component {
     return (
         <div className="bodyDiv" style={{padding: "30px"}}>
           <RModalSelect style={{width: "300px"}} />
-          <Button onClick={this.onClick}><Icon type="search" />点击</Button>
         </div>
     );
   }

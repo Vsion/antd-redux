@@ -6,3 +6,32 @@
   background: #fff url(img/hhms-img-active.png) no-repeat right center;
   background-color: #fff !important;
 }
+.rModalSelect{
+
+}
+.rModalSelect .top{
+  padding: 5px 0px;
+  height: 40px;
+}
+.rModalSelect .top input{
+  width: calc(100% - 120px);
+}
+.rModalSelect .top button{
+  float: right;
+}
+
+.rModalSelect .panel{
+  padding: 10px;
+  height: 100px;
+  background-color: #ddd;
+  border-radius: 4px;
+  overflow: auto;
+}
+
+.rModalSelect .panel button{
+  margin: 0 5px 5px 5px;
+}
+.rModalSelect .panel .item{
+  margin-top: 5px;
+  margin-right: 5px;
+}
