@@ -35,3 +35,68 @@
   margin-top: 5px;
   margin-right: 5px;
 }
+
+.rModalSelect .bread{
+  padding: 15px 0;
+  height: 50px;
+}
+.rModalSelect .bread .breadHint{
+  padding: 0 5px;
+  color: #aaa;
+}
+.rModalSelect .list{
+  border: 1px solid #e9e9e9;
+  height: 252px;
+  overflow-y: auto;
+}
+.rModalSelect .listTitle{
+  background-color: #108ee9;
+  text-align: center;
+}
+.rModalSelect .titleItem{
+  color: white;
+  display: inline-block;
+  height: 30px;
+  line-height: 30px;
+}
+.rModalSelect .titleItem:nth-child(1){
+  width: 15%;
+}
+.rModalSelect .titleItem:nth-child(2){
+  border-left: 1px solid #fff;
+  width: 55%;
+}
+.rModalSelect .titleItem:nth-child(3){
+  border-left: 1px solid #fff;
+  width: 30%;
+}
+.rModalSelect .listContent{
+  height: 220px;
+}
+.rModalSelect .listContent table{
+  overflow-y: auto;
+  width: 100%;
+  border-collapse: collapse;
+}
+.rModalSelect .listContent table tr{
+  height: 25px;
+  line-height: 25px;
+}
+.rModalSelect .listContent table tr td{
+  border: 1px solid #ddd;
+  padding: 0 5px;
+}
+.rModalSelect .listContent .item-type{
+  width: 15%;
+}
+.rModalSelect .listContent .item-path{
+  width: 30%;
+}
+.rModalSelect .listContent table tr td.inputSpan{
+  vertical-align: middle;
+}
+.ant-checkbox + a {
+    padding-left: 8px;
+    padding-right: 8px;
+    vertical-align: middle;
+}

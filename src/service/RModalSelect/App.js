@@ -23,6 +23,18 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 class App extends React.Component {
   constructor (props) {
     super(props);
+    this.state = {
+      options: {
+        list: [
+          {id: "a0", type: "level0", label: "A0", pid: ""},
+          {id: "a1", type: "level1", label: "A1", pid: "a0"},
+          {id: "a2", type: "level0", label: "A2", pid: ""},
+          {id: "a3", type: "level2", label: "A3", pid: "a1"},
+          {id: "a4", type: "level3", label: "A4", pid: "a3"},
+        ],
+        type: ["level0", "level1", "level2", "level3"]
+      }//data: [{"id":"a0","name":"AA","label":"视频"}]
+    }
   }
   onClick (){
 
@@ -30,7 +42,7 @@ class App extends React.Component {
   render() {
     return (
         <div className="bodyDiv" style={{padding: "30px"}}>
-          <RModalSelect style={{width: "300px"}} />
+          <RModalSelect options={this.state.options} style={{width: "300px"}} />
         </div>
     );
   }

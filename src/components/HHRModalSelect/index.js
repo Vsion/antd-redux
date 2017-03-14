@@ -7,7 +7,7 @@ import ModalContent from './ModalContent';
 const RModalSelect = React.createClass({
   getInitialState(){
     return {
-      visible: false,
+      visible: true,
       loading: false,
       isFullModel: false
      };
@@ -67,7 +67,7 @@ const RModalSelect = React.createClass({
       <div style={this.props.style}>
         <Input {...inpProps}/>
         <Modal {...ModalOpt}>
-          <ModalContent contentHeight={this.props.contentHeight || "400px"} option={this.props.option} />
+          <ModalContent options={this.props.options} contentHeight={this.props.contentHeight || "430px"} option={this.props.option} />
         </Modal>
       </div>
     )
