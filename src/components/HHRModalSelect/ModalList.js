@@ -13,7 +13,7 @@ const ModalList = React.createClass({
     let dom = list.map(function(o, i, objs){
       let label = null;
       if(!!o.hasChildNode){
-        label = <a onClick={function(){_this.onLabelClick(o)}} href="#" className="nameSpan">{o.label}</a>;
+        label = <a onClick={function(){_this.onLabelClick(o)}} href="javascript:void(0);" className="nameSpan">{o.label}</a>;
       }else {
         label = <span className="nameSpan">{o.label}</span>;
       }
