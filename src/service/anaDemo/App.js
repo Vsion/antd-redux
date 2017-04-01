@@ -83,9 +83,22 @@ let opt = {
              {level:"1",id:"aa1",name:"ICP.web1"}]
 }
 
+const rmsoptions = {
+  list: [
+    {id: "a0", type: "level0", label: "A0", pid: ""},
+    {id: "a1", type: "level1", label: "A1", pid: "a0"},
+    {id: "a2", type: "level0", label: "A2", pid: ""},
+    {id: "a3", type: "level2", label: "A3", pid: "a1"},
+    {id: "a4", type: "level3", label: "A4", pid: "a3"},
+  ],
+  type: ["level0", "level1", "level2", "level3"],
+  defaultValue: {level0: "a0,a2", "level2": "a3"},
+}
+
 const items = [
+  {name: "rms",ref: "rms", placeholder: "请选择", label: "RModalSelect", type: "RModalSelect", opt: rmsoptions},
   {name: "range", label: "range", type: "RangePicker", initialValue: ["2017-01-01 00:00:00", "2017-01-02 00:00:00"]},
-  {name: "date", label: "date", type: "DatePicker"},
+  {name: "date", label: "date", type: "DatePicker", initialValue: "2017-01-01 00:00:00"},
   {name: "month", label: "month", type: "MonthPicker"},
   {name: "ms",ref: "ms", placeholder: "请选择", label: "ModalSelect", type: "ModalSelect", opt: opt,initialValue: defaultValue},
 

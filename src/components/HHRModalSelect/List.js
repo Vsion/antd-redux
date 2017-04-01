@@ -1,8 +1,9 @@
 import React from 'react';
 import _ from 'lodash';
 import { Checkbox } from 'antd';
+import Item from './Item';
 
-const ModalList = React.createClass({
+const List = React.createClass({
   getInitialState(){
     return {
 
@@ -17,20 +18,14 @@ const ModalList = React.createClass({
       }else {
         label = <span className="nameSpan">{o.label}</span>;
       }
+      let isChecked = false;
+      var selectedItem = _.filter(_this.props.selectedItems, {id: o.id, type: o.type});
+      if(selectedItem.length == 1){
+        isChecked = true;
+      }
       return (
-        <tr key={o.id}>
-          <td className="item-type">{o.type}</td>
-          <td className="item-name">
-            <span>
-              <span className="inputSpan ant-checkbox">
-                <Checkbox onChange={function(e){ _this.props.onCheckChange(o, e.target.checked)}} />
-              </span>
-              {label}
-            </span>
-          </td>
-          <td className="item-path">{o.path}</td>
-        </tr>
-        )
+        <Item key={i} label={label} itemObj={o} isDisabled={o.disabled || false} isChecked={isChecked} onChange={function(e){ _this.props.onCheckChange(o, e.target.checked)}} />
+      )
     });
     return dom;
   },
@@ -58,4 +53,4 @@ const ModalList = React.createClass({
   }
 });
 
-module.exports = ModalList;
+module.exports = List;

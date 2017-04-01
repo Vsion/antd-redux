@@ -43,8 +43,14 @@ const QueryParamsLabel = React.createClass({
     }
     let _this = this;
     params.map(function(o,i,objs){
-      var title = o.value.replace(/,/g, "\n");
       var value = o.value;
+      var title;
+      if(typeof value != "string"){
+        title = "";
+        return false;
+      }else {
+        title = o.value.replace(/,/g, "\n");
+      }
       if(value.length > 6){
         value = value.substr(0,5) + "...";
       }

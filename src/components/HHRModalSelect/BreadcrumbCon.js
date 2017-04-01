@@ -12,7 +12,7 @@ const BreadcrumbCon = React.createClass({
     let _this = this;
     return items.map(function(o, i){
       return (
-          <Breadcrumb.Item key={i} onClick={function(){_this.props.onBreadClick(o, i)}} href="#">{o.label}</Breadcrumb.Item>
+          <Breadcrumb.Item key={i} onClick={function(){_this.props.onBreadClick(o, i)}} href="javascript:void(0);">{o.label}</Breadcrumb.Item>
       )
     })
   },

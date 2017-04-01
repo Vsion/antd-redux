@@ -32,19 +32,39 @@ class App extends React.Component {
           {id: "a3", type: "level2", label: "A3", pid: "a1"},
           {id: "a4", type: "level3", label: "A4", pid: "a3"},
         ],
-        type: ["level0", "level1", "level2", "level3"]
+        type: ["level0", "level1", "level2", "level3"],
+        defaultValue: {level0: "a0", "level2": "a3"},
+        disabledItems: ["level0_a2"]
       }//data: [{"id":"a0","name":"AA","label":"视频"}]
     }
   }
   onClick (){
 
   }
+  onItemCheck(o, isChecked, selectedItems, allItems){
+    var resArr = [];
+    if(isChecked){
+      resArr.push(o);
+    }
+    var disabledItems = ["level0_a2"];
+    debugger
+    return {
+      selectedItems: resArr,
+      disabledItems: disabledItems
+    };
+  }
+  onModalSubmit(selectedItems, allItems){
+    return selectedItems;
+  }
   render() {
     return (
         <div className="bodyDiv" style={{padding: "30px"}}>
-          <RModalSelect options={this.state.options} style={{width: "300px"}} />
+          <RModalSelect ref="rms" onModalSubmit={this.onModalSubmit} onItemCheck={this.onItemCheck} options={this.state.options} style={{width: "300px"}} />
         </div>
     );
+  }
+  componentDidMount() {
+    debugger
   }
 }
 

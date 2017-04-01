@@ -52,13 +52,13 @@ const HHMonthPicker = React.createClass({
      return { };
    },
    render() {
-     var isReflesh = this.props.isReflesh;
+     let isReflesh = this.props.isReflesh;
      if(isReflesh != true && isReflesh != false){
        isReflesh = false;
      }
      return (
        !isReflesh?<MonthPicker
-         defaultValue={this.props.defaultValue || null}
+         defaultValue={!!this.props.dValue && new moment(this.props.dValue) || null}
          locale={locale}
          placeholder={this.props.placeholder || "请选择月份"}
          format={this.props.format}
@@ -74,13 +74,13 @@ const HHDatePicker = React.createClass({
     return { };
   },
   render() {
-    var isReflesh = this.props.isReflesh;
+    let isReflesh = this.props.isReflesh;
     if(isReflesh != true && isReflesh != false){
       isReflesh = false;
     }
     return (
       !isReflesh?<DatePicker
-        defaultValue={this.props.defaultValue || null}
+        defaultValue={!!this.props.dValue && new moment(this.props.dValue) || null}
         locale={locale}
         placeholder={this.props.placeholder || "选择时间"}
         format={this.props.format || "YYYY-MM-DD"}
@@ -98,10 +98,17 @@ const HHRangePicker = React.createClass({
      return { };
    },
    render() {
-     var placeholder = [this.props.startPlaceholder || "开始时间", this.props.endPlaceholder || "结束时间"];
-     var isReflesh = this.props.isReflesh;
+     let placeholder = [this.props.startPlaceholder || "开始时间", this.props.endPlaceholder || "结束时间"];
+     let isReflesh = this.props.isReflesh;
      if(isReflesh != true && isReflesh != false){
        isReflesh = false;
+     }
+     let defaultValue = [];
+     if(!!this.props.dValue && this.props.dValue.length == 2){
+       defaultValue = [
+         new moment(this.props.dValue[0]),
+         new moment(this.props.dValue[1]),
+       ];
      }
      return(
        !isReflesh?<RangePicker
@@ -109,7 +116,7 @@ const HHRangePicker = React.createClass({
          placeholder={placeholder}
          startPlaceholder={this.props.startPlaceholder || "开始时间"}
          endPlaceholder={this.props.endPlaceholder || "结束时间"}
-         defaultValue={[this.props.defaultStartValue || null,this.props.defaultEndValue || null]}
+         defaultValue={defaultValue}
          locale={locale}
          format={this.props.format}
          showTime={this.props.showTime}

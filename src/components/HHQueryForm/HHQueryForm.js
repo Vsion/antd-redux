@@ -3,8 +3,10 @@ import { Form, Row, Col, Input, Button, Icon } from 'antd';
 const FormItem = Form.Item;
 import Select from '../Select/Select';
 import QueryParamsLabel from './QueryParamsLabel';
+import _ from 'lodash';
 
-import ModalSelect from '../hhModalSelect/index';
+import ModalSelect from '../HHModalSelect/index';
+import RModalSelect from '../HHRModalSelect/index';
 import { HHMonthPicker, HHDatePicker, HHRangePicker } from '../HHDatePicker/HHDatePicker';
 
 require('./HHQueryForm.scss');
@@ -108,7 +110,7 @@ const HHForm = Form.create()(React.createClass({
                  return dateString
                }
              })(
-              <HHRangePicker isReflesh={this.state.isReflesh} format="YYYY-MM-DD HH:mm:ss" showTime={true} disabledDate={Items[i].disabledDate || null} disabledTime={Items[i].disabledTime || null} onChange={Items[i].onChange || null} />
+              <HHRangePicker dValue={initValue} isReflesh={this.state.isReflesh} format="YYYY-MM-DD HH:mm:ss" showTime={true} disabledDate={Items[i].disabledDate || null} disabledTime={Items[i].disabledTime || null} onChange={Items[i].onChange || null} />
              )}
            </FormItem>);
       case "DatePicker":
@@ -122,7 +124,7 @@ const HHForm = Form.create()(React.createClass({
                  return dateString
                }
              })(
-              <HHDatePicker isReflesh={this.state.isReflesh} format="YYYY-MM-DD" showTime={false} disabledDate={Items[i].disabledDate || null} disabledTime={Items[i].disabledTime || null} onChange={Items[i].onChange || null} />
+              <HHDatePicker dValue={initValue} isReflesh={this.state.isReflesh} format="YYYY-MM-DD" showTime={false} disabledDate={Items[i].disabledDate || null} disabledTime={Items[i].disabledTime || null} onChange={Items[i].onChange || null} />
              )}
            </FormItem>);
       case "MonthPicker":
@@ -136,7 +138,7 @@ const HHForm = Form.create()(React.createClass({
                  return dateString
                }
              })(
-              <HHMonthPicker isReflesh={this.state.isReflesh} format="YYYY-MM" showTime={true} disabledDate={Items[i].disabledDate || null} disabledTime={Items[i].disabledTime || null} onChange={Items[i].onChange || null} />
+              <HHMonthPicker dValue={initValue} isReflesh={this.state.isReflesh} format="YYYY-MM" showTime={true} disabledDate={Items[i].disabledDate || null} disabledTime={Items[i].disabledTime || null} onChange={Items[i].onChange || null} />
              )}
            </FormItem>);
       case "ModalSelect":
@@ -147,7 +149,14 @@ const HHForm = Form.create()(React.createClass({
                 <ModalSelect isReset={this.state.isReset} size="large" onChange={onMsChange} placeholder={Items[i].placeholder} option={Items[i].opt} defaultMsValue={initValue}/>
              )}
            </FormItem>);
-
+       case "RModalSelect":
+         return(
+           //自定义模块组件 引入到FormItem getFieldDecorator中
+           <FormItem {...formItemLayout} label={Items[i].label}>
+              {getFieldDecorator(name)(
+                 <RModalSelect options={Items[i].opt} />
+              )}
+            </FormItem>);
       default:
         return null;
     }
@@ -159,14 +168,29 @@ const HHForm = Form.create()(React.createClass({
       var values = fvalues;
       this.props.Items.map(function(o,i,objs){
         if(o.type == "ModalSelect"){
-          values = Object.assign(values, fvalues[o.name]);
-          //values.ms = null;
+          values = Object.assign(values, _this.props.form.getFieldInstance(o.name).inst.getVal());
+          //todo
+          //this.props.form.getFieldInstance(o.name).inst.getSelectedItems()
+          delete values[o.name];
+        }
+        if(o.type == "RModalSelect"){
+          values = Object.assign(values, _this.props.form.getFieldInstance(o.name).state.value)
           delete values[o.name];
         }
       });
+      values = _this.getFValues(values);
       _this.props.onSubmit(values);
       _this.setParams(values);
     });
+  },
+  getFValues(values){
+    var temp = _.clone(values);
+    for(var i in temp){
+      if(!!!temp[i]){
+        delete temp[i];
+      }
+    }
+    return temp;
   },
   setParams(values){
     var items = [];
@@ -179,6 +203,12 @@ const HHForm = Form.create()(React.createClass({
             if(!!value) value += ","
             value += obj.label;
           });
+          items.push({label: o.label, name: o.name, value: value});
+        }
+      }
+      else if(o.type == "RModalSelect"){
+        var value = this.props.form.getFieldInstance(o.name).state.inputValue;
+        if(!!value){
           items.push({label: o.label, name: o.name, value: value});
         }
       }
@@ -213,33 +243,38 @@ const HHForm = Form.create()(React.createClass({
   },
   resetItem(name){
     let Items = this.props.Items;
+    var o = _.filter(Items, {name: name})[0];
     var form = this.props.form;
+    debugger
     var _this = this;
-    Items.map(function(o,i,objs){
-      if(o.name == name){
-        if(o.type == "ModalSelect"){
-          form.getFieldInstance(o.name).resetMs();
-        }
-        if(o.type == "RangePicker"){
-          _this.setState({isResetRangePicker: true}, function(){
-            _this.setState({isResetRangePicker: false});
-          })
-        }
-        if(o.type == "DatePicker"){
-          _this.setState({isResetDatePicker: true}, function(){
-            _this.setState({isResetDatePicker: false});
-          })
-        }
-        if(o.type == "MonthPicker"){
-          _this.setState({isResetMonthPicker: true}, function(){
-            _this.setState({isResetMonthPicker: false});
-          })
-        }
-        else{
-          form.resetFields([name]);
-        }
-      }
-    });
+    var res = {};
+    if(o.type == "ModalSelect"){
+      form.getFieldInstance(o.name).resetMs();
+    }
+    if(o.type == "RModalSelect"){
+      form.getFieldInstance(o.name).clear();
+    }
+    if(o.type == "RangePicker"){
+      // _this.setState({isResetRangePicker: true}, function(){
+      //   _this.setState({isResetRangePicker: false});
+      // })
+      res[name] = [];
+      form.setFieldsValue(res);
+    }
+    // if(o.type == "DatePicker"){
+    //   _this.setState({isResetDatePicker: true}, function(){
+    //     _this.setState({isResetDatePicker: false});
+    //   })
+    // }
+    // if(o.type == "MonthPicker"){
+    //   _this.setState({isResetMonthPicker: true}, function(){
+    //     _this.setState({isResetMonthPicker: false});
+    //   })
+    // }
+    else{
+      res[name] = "";
+      form.setFieldsValue(res);
+    }
   },
   getSpan(c){
     c = parseInt(c);

@@ -39,3 +39,7 @@ li.ant-calendar-time-picker-select-option-selected {
 }
 
 /*panel end*/
+
+.ant-checkbox-inline.disabled, .ant-checkbox-vertical.disabled, .ant-checkbox.disabled label, .ant-radio-inline.disabled, .ant-radio-vertical.disabled, .ant-radio.disabled label, input[type=checkbox].disabled, input[type=checkbox][disabled], input[type=radio].disabled, input[type=radio][disabled] {
+    cursor: not-allowed;
+}
