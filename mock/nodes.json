@@ -49,7 +49,7 @@
   },
   {
     "icon": "play-circle",
-    "key": "sub3_2",
+    "key": "RModalSelect",
     "level": 1,
     "pkey":"sub3",
     "url":"./RModalSelect",

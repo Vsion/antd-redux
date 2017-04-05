@@ -26,7 +26,7 @@ const Breadcrumbs = React.createClass({
       // if(i < length){
       //   return (<Breadcrumb.Item href={item.url} key={item.title}>{item.title}</Breadcrumb.Item>);
       // }else{
-        return (<Breadcrumb.Item key={item.title}>{item.title}</Breadcrumb.Item>);
+        return (<Breadcrumb.Item key={i}>{item.title}</Breadcrumb.Item>);
       //}
     });
     return (

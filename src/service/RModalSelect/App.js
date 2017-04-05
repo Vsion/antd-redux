@@ -47,7 +47,7 @@ class App extends React.Component {
       resArr.push(o);
     }
     var disabledItems = ["level0_a2"];
-    debugger
+    // debugger
     return {
       selectedItems: resArr,
       disabledItems: disabledItems
@@ -64,7 +64,7 @@ class App extends React.Component {
     );
   }
   componentDidMount() {
-    debugger
+    // debugger
   }
 }
 
